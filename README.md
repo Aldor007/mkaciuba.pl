@@ -19,12 +19,12 @@ Features
 * Admin panel with SonataAdminBudle
 * Rss with EkoFeedBundle
 * custom error pages due to WebFactorExceptionBundle
-* Mobile detect with ua-lua (evrything is done in nginx)
+* Mobile detect with ua-lua (everything is done in nginx)
 * gathering stats using statsd 
 * custom seo date for page (SonataSeoBundle)
 * supersized gallery for photos
 * ajax gallery for photos in blog post
-* zip photo upload and then unzip and add to photocategory
+* upload photos in zip file
 
 License
 -------
