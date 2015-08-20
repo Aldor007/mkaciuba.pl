@@ -1,0 +1,3 @@
+[submodule "vendor/sonata-project/notification-bundle"]
+	path = vendor/sonata-project/notification-bundle
+	url = https://github.com/Aldor007/SonataNotificationBundle.git
