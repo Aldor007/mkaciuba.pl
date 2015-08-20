@@ -1,0 +1,700 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: sonata_admin.yml }
+    - { resource: sonata_page.yml }
+    - { resource: sonata_seo.yml }
+    - { resource: sonata_notification.yml }
+    - { resource: nelmio_security.yml }
+    - { resource: mobile.yml }
+    - { resource: statsd.yml }
+    - { resource: elastic.yml }
+    - { resource: config_pheanstalk.yml }
+
+framework:
+    #esi:             ~
+    translator:      { fallback: %locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: %kernel.debug%
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale: en
+    trusted_proxies: ~
+    session:
+        handler_id: snc_redis.session.handler
+        cookie_lifetime:       5600
+        name:  mkaciuba_session
+
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    globals:
+        dateFormat: 'Y-m-d h:i:s T'
+    form:
+        resources:
+            - 'SonataCoreBundle:Form:datepicker.html.twig'
+            - 'SonataAdminBundle:Form:silex_form_div_layout.html.twig'
+            - 'SonataFormatterBundle:Form:formatter.html.twig'
+
+# Assetic Configuration
+assetic:
+    read_from:            "%kernel.root_dir%/../web"
+    use_controller: false
+    filters:
+        less:
+            path: [/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/game]
+            node: node
+            # node_paths: [/usr/local/lib/node_modules]
+            node_paths: [/usr/local/lib/node_modules:/usr/lib/node_modules:/root/node_modules]
+
+            apply_to: "\.less$"
+        uglifyjs2:
+            path: [/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/game]
+            bin: /usr/local/bin/uglifyjs
+        uglifycss:
+            bin: /usr/local/bin/uglifycss
+            path: [/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/game]
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   %database_name%
+        user:     %database_user%
+        password: %database_password%
+        charset:  UTF8
+        types:
+            json: Sonata\Doctrine\Types\JsonType
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+
+        entity_managers:
+            default:
+                metadata_cache_driver: apc
+                query_cache_driver: redis
+                result_cache_driver: redis
+                metadata_cache_driver: redis
+                query_cache_driver: redis
+                # auto_mapping: true
+
+                mappings:
+                    SonataMediaBundle: ~
+                    ApplicationSonataUserBundle: ~
+                    SonataUserBundle: ~
+                    FOSUserBundle: ~
+                    AldorInftechBundle: ~
+                    AldorBlogBundle: ~
+                    AldorGalleryBundle: ~
+                    AldorPortfolioBundle: ~
+                    ApplicationSonataMediaBundle: ~
+                    SonataNotificationBundle: ~
+                    ApplicationSonataPageBundle: ~
+                    SonataPageBundle: ~
+                    ApplicationSonataNotificationBundle: ~
+                    StofDoctrineExtensionsBundle: true
+
+                    ApplicationSonataClassificationBundle: ~
+                    SonataClassificationBundle: ~
+
+sonata_classification:
+    class:
+        tag:          Application\Sonata\ClassificationBundle\Entity\Tag
+        category:     Application\Sonata\ClassificationBundle\Entity\Category
+        collection:   Application\Sonata\ClassificationBundle\Entity\Collection
+
+    admin:
+        tag:
+            class:        Sonata\ClassificationBundle\Admin\TagAdmin
+            controller:   SonataAdminBundle:CRUD
+            translation:  SonataClassificationBundle
+        category:
+            class:        Sonata\ClassificationBundle\Admin\CategoryAdmin
+            controller:   SonataAdminBundle:CRUD
+            translation:  SonataClassificationBundle
+        collection:
+            class:        Sonata\ClassificationBundle\Admin\CollectionAdmin
+            controller:   SonataAdminBundle:CRUD
+            translation:  SonataClassificationBundle
+sonata_core: ~
+
+sonata_media:
+    class:
+        media: Application\Sonata\MediaBundle\Entity\Media
+        gallery: Application\Sonata\MediaBundle\Entity\Gallery
+        gallery_has_media: Application\Sonata\MediaBundle\Entity\GalleryHasMedia
+    providers:
+        image:
+            thumbnail:  sonata.media.thumbnail.consumer.format
+        vimeo:
+            thumbnail:  sonata.media.thumbnail.consumer.format
+        youtube:
+            thumbnail:  sonata.media.thumbnail.consumer.format
+        dailymotion:
+            thumbnail:  sonata.media.thumbnail.consumer.format
+        file:
+            allowed_extensions: ['zip','rar', 'pdf', 'txt', 'rtf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pttx', 'odt', 'odg', 'odp', 'ods', 'odc', 'odf', 'odb', 'csv', 'xml']
+            allowed_mime_types: ['application/msword', application/x-rar-compressed', 'application/octet-stream', 'application/zip', 'application/x-zip', 'application/pdf', 'application/x-pdf', 'application/rtf', 'text/html', 'text/rtf', 'text/plain']
+    default_context: default
+    db_driver: doctrine_orm # or doctrine_mongodb, doctrine_phpcr
+    contexts:
+        default:
+            download:
+                strategy: sonata.media.security.session_strategy
+            providers:
+                - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.file
+                - sonata.media.provider.image
+            formats:
+                small: { width: 150 , quality: 95}
+                medium: { width: 450 , quality: 95, }
+                big:   { width: 700 , quality: 90}
+
+        blog:
+            providers:
+                - sonata.media.provider.image
+                - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.vimeo
+
+            formats:
+                small: { width: 150 , quality: 80}
+                medium600: { width: 600, quality: 78}
+                medium: { width: 400 , quality: 85, }
+                big:   { width: 700 , quality: 90}
+                big1300:   { width: 1300 , quality: 100}
+        gallery:
+            providers:
+                - sonata.media.provider.image
+
+            formats:
+                small: { width: 150 , quality: 100}
+                medium: { width: 480 , quality: 100}
+                big:   { width: 600 , quality: 100}
+                big1300:   { width: 1300 , quality: 100}
+                big1000:   { width: 1000 , quality: 100}
+                #  big700:   { width: 700, quality: 90}
+                big300:   { width: 300, quality: 90}
+                big200:   { width: 200, quality: 90}
+        portfolio:
+            providers:
+                - sonata.media.provider.image
+                - sonata.media.provider.youtube
+                - sonata.media.provider.vimeo
+
+            formats:
+                small: { width: 300 , quality: 85}
+                medium: { width: 480 , quality: 95}
+                big:   { width: 600, quality: 98}
+
+
+    cdn:
+        server:
+            path: https://mkaciuba.pl/uploads/media # http://media.sonata-project.org/
+
+    filesystem:
+        local:
+            directory:  %kernel.root_dir%/../web/uploads/media
+            create:     true
+    pixlr:
+        enabled:  true
+        referrer: mkaciuba.pl
+
+
+
+services:
+    front_cache:
+        class: "redis"
+    backend_cache:
+        class: "redis"
+  # Doctrine Extension listeners to handle behaviors
+    gedmo.listener.tree:
+        class: Gedmo\Tree\TreeListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ @annotation_reader ] ]
+
+doctrine_cache:
+    providers:
+        front_cache:
+            redis:
+                host: 127.0.0.1
+                port: 6379
+        backend_cache:
+            redis:
+                host: 127.0.0.1
+                port: 6379
+
+
+stof_doctrine_extensions:
+    default_locale: pl
+    orm:
+        default:
+            tree: false
+            loggable: false
+            timestampable: false
+            sluggable: true
+            translatable: false
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+    spool:     { type: memory }
+
+#sontat
+sonata_block:
+    context_manager: sonata.page.block.context_manager
+    default_contexts: [sonata_page_bundle]
+    http_cache:
+        listener: true
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        sonata.admin.block.search_result:
+            contexts:   [admin]
+
+        sonata.admin_doctrine_orm.block.audit:
+           contexts:   [admin]
+
+        # Builtin Block
+        sonata.block.service.text:
+        sonata.block.service.container:
+        sonata.block.service.rss:
+        sonata.block.service.menu:
+        sonata.block.service.template:
+
+        # PageBundle's Blocks
+        sonata.page.block.container:
+            cache: sonata.cache.predis
+        sonata.page.block.children_pages:
+            cache: sonata.cache.predis
+        sonata.page.block.breadcrumb:
+            cache: sonata.cache.predis
+
+        # MediaBundle's Blocks
+        sonata.media.block.media:
+            cache: sonata.cache.predis
+        sonata.media.block.gallery:
+            cache: sonata.cache.predis
+        sonata.media.block.feature_media:
+            cache: sonata.cache.predis
+
+        # NewsBundle's Blocks
+        sonata.news.block.recent_comments:
+        sonata.news.block.recent_posts:
+
+        # Ecommerce's Blocks
+        sonata.basket.block.nb_items:
+            cache: sonata.page.cache.js_async
+            contexts: [user]
+        sonata.basket.block.nb_items:
+            cache: sonata.page.cache.js_async
+            contexts: [user]
+
+        # TimelineBundle's Blocks
+
+        sonata.timeline.block.timeline:
+            contexts:   [admin]
+
+        # UserBundle's Blocks
+        sonata.user.block.account:
+            cache: sonata.page.cache.js_async
+            #cache: sonata.page.cache.esi
+            contexts: [user]
+        sonata.user.block.menu:
+            contexts: [user]
+
+        # SeoBundle's Blocks
+        sonata.seo.block.email.share_button:
+        sonata.seo.block.facebook.like_box:
+        sonata.seo.block.facebook.like_button:
+        sonata.seo.block.facebook.send_button:
+        sonata.seo.block.facebook.share_button:
+        sonata.seo.block.pinterest.pin_button:
+        sonata.seo.block.twitter.share_button:
+        sonata.seo.block.twitter.follow_button:
+        sonata.seo.block.twitter.hashtag_button:
+        sonata.seo.block.twitter.mention_button:
+        sonata.seo.block.twitter.embed:
+
+
+        aldor.block.service.categories:
+            cache: sonata.cache.predis
+            settings: {ttl: 600}
+        aldor.block.service.tags:
+            cache: sonata.cache.predis
+            settings: {ttl: 600}
+        aldor.block.service.recentposts:
+            cache: sonata.cache.predis
+            settings: {ttl: 600}
+        aldor.block.service.technologies:
+            cache: sonata.cache.predis
+            settings: {ttl: 600}
+        aldor.block.service.recentphoto:
+            cache: sonata.cache.predis
+            settings: {ttl: 600}
+        aldor.block.service.recentprojects:
+            cache: sonata.cache.predis
+            settings: {ttl: 600}
+
+        aldor.block.service.relatedposts:
+            cache: sonata.cache.predis
+        # Formatter
+
+        sonata.seo.block.breadcrumb.homepage:
+
+        sonata.formatter.block.formatter:
+
+        #
+sonata_user:
+    security_acl: false
+    manager_type: orm # can be orm or mongodb
+    class:
+        user:         Application\Sonata\UserBundle\Entity\User
+        group:        Application\Sonata\UserBundle\Entity\Group
+
+    profile:  # Profile Form (firstname, lastname, etc ...)
+        form:
+            type:               sonata_user_profile
+            handler:            sonata.user.profile.form.handler.default
+            name:               sonata_user_profile_form
+            validation_groups:  [Profile]
+sonata_intl:
+    timezone:
+        default: Europe/Warsaw
+        locales:
+            pl: Europe/Warsaw
+fos_user:
+    db_driver:      orm # can be orm or odm
+    firewall_name:  main
+    user_class:     Application\Sonata\UserBundle\Entity\User
+
+
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager                    # If you're using doctrine orm (use sonata.user.mongodb.user_manager for mongodb)
+
+    service:
+        user_manager: sonata.user.orm.user_manager                      # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
+    profile:
+        form:
+            type:               fos_user_profile
+            handler:            fos_user.profile.form.handler.default
+            name:               fos_user_profile_form
+
+
+jms_serializer:
+    metadata:
+        # auto_detection: true
+        directories:
+            SonataMediaBundle:
+                namespace_prefix: "Sonata\\MediaBundle"
+                path: "@ApplicationSonataMediaBundle/Resources/config/serializer/media"
+            SonataUserBundle:
+                namespace_prefix: "Sonata\\UserBundle"
+                path: "%kernel.root_dir%/Resources/SonataUserBundle/serializer"
+            FOSUserBundle:
+                path: "%kernel.root_dir%/Resources/FOSUserBundle/serializer"
+                namespace_prefix: "FOS\\UserBundle"
+
+
+
+liip_imagine:
+    resolvers:
+        default:
+          web_path: ~
+
+    filter_sets:
+        blog_small:
+            quality: 75
+            filters:
+                thumbnail: { size: [100, 70], mode: outbound }
+                interlace:
+                    mode: line
+
+
+        blog_medium:
+            quality: 75
+            filters:
+                thumbnail: { size: [903, 600], mode: outbound }
+                crop: { start: [0, 0], size: [900, 320] }
+
+        blog_big:
+            quality: 75
+            filters:
+                auto_rotate: ~
+                strip: ~
+        gallery_thumb:
+            quality: 75
+            filters:
+                thumbnail: { size: [200], mode: outbound }
+                auto_rotate: ~
+                strip: ~
+        photocategory_img:
+            quality: 75
+            filters:
+                thumbnail: { size: [903, 600], mode: outbound }
+                crop: { start: [0, 0], size: [600, 450] }
+                auto_rotate: ~
+                strip: ~
+                interlace:
+                    mode: line
+
+
+sonata_doctrine_orm_admin:
+   # default value is null, so doctrine uses the value defined in the configuration
+    entity_manager: ~
+
+    templates:
+        form:
+           - SonataDoctrineORMAdminBundle:Form:form_admin_fields.html.twig
+        filter:
+           - SonataDoctrineORMAdminBundle:Form:filter_admin_fields.html.twig
+        types:
+            list:
+                array:     SonataAdminBundle:CRUD:list_array.html.twig
+                boolean:   SonataAdminBundle:CRUD:list_boolean.html.twig
+                date:      SonataAdminBundle:CRUD:list_date.html.twig
+                time:      SonataAdminBundle:CRUD:list_time.html.twig
+                datetime:  SonataAdminBundle:CRUD:list_datetime.html.twig
+                text:      SonataAdminBundle:CRUD:base_list_field.html.twig
+                trans:     SonataAdminBundle:CRUD:list_trans.html.twig
+                string:    SonataAdminBundle:CRUD:base_list_field.html.twig
+                smallint:  SonataAdminBundle:CRUD:base_list_field.html.twig
+                bigint:    SonataAdminBundle:CRUD:base_list_field.html.twig
+                integer:   SonataAdminBundle:CRUD:base_list_field.html.twig
+                decimal:   SonataAdminBundle:CRUD:base_list_field.html.twig
+                identifier: SonataAdminBundle:CRUD:base_list_field.html.twig
+
+            show:
+                array:     SonataAdminBundle:CRUD:show_array.html.twig
+                boolean:   SonataAdminBundle:CRUD:show_boolean.html.twig
+                date:      SonataAdminBundle:CRUD:show_date.html.twig
+                time:      SonataAdminBundle:CRUD:show_time.html.twig
+                datetime:  SonataAdminBundle:CRUD:show_datetime.html.twig
+                text:      SonataAdminBundle:CRUD:base_show_field.html.twig
+                trans:     SonataAdminBundle:CRUD:show_trans.html.twig
+                string:    SonataAdminBundle:CRUD:base_show_field.html.twig
+                smallint:  SonataAdminBundle:CRUD:base_show_field.html.twig
+                bigint:    SonataAdminBundle:CRUD:base_show_field.html.twig
+                integer:   SonataAdminBundle:CRUD:base_show_field.html.twig
+                decimal:   SonataAdminBundle:CRUD:base_show_field.html.twig
+
+
+sonata_cache:
+    caches:
+
+        predis:
+            servers:
+                - {host: 127.0.0.1, port: 6379, database: 42}
+
+
+knp_menu:
+    twig:
+        template: AldorInftechBundle:Bootstrap:knp_menu.html.twig
+knp_paginator:
+    page_range: 5                      # default page range used in pagination control
+    default_options:
+        page_name: strona                # page query parameter name
+        sort_field_name: sortuj         # sort field query parameter name
+        sort_direction_name: kierunek # sort direction query parameter name
+        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+sonata_formatter:
+    formatters:
+        richhtml:
+            service: sonata.formatter.text.raw
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+                - sonata.media.formatter.twig
+                - aldor.gallery.formatter.twig
+        markdown:
+            service: sonata.formatter.text.markdown
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+                - sonata.media.formatter.twig
+                - aldor.gallery.formatter.twig
+        twig:
+            service: sonata.formatter.text.twigengine
+            extensions: [] # Twig formatter cannot have extensions
+
+
+    ckeditor:
+        templates:
+            browser: 'SonataFormatterBundle:Ckeditor:browser.html.twig'
+            upload: 'SonataFormatterBundle:Ckeditor:upload.html.twig'
+
+ivory_ck_editor:
+    default_config: blog
+    # base_path: "ckeditor"
+    # js_path:   "ckeditor/ckeditor.js"
+    plugins:
+        widget:
+            path: /bundles/aldorinftech/js/ckeditor/widget/
+            filename: plugin.js
+        lineutils:
+            path: /bundles/aldorinftech/js/ckeditor/lineutils/
+            filename: plugin.js
+        syntaxhighlight:
+            path: /bundles/aldorinftech/js/ckeditor/syntaxhighlight/
+            filename: plugin.js
+        oembed:
+            path: /bundles/aldorinftech/js/ckeditor/oembed/
+            filename: plugin.js
+        symbol:
+            path: /bundles/aldorinftech/js/ckeditor/symbol/
+            filename: plugin.js
+        lightbox:
+            path: /bundles/aldorinftech/js/ckeditor/lightbox/
+            filename: plugin.js
+
+    configs:
+        blog:
+            extraPlugins: "widget,lineutils,syntaxhighlight,oembed,symbol,lightbox"
+            filebrowserBrowseRoute: admin_sonata_media_media_ckeditor_browser
+            filebrowserImageBrowseRoute: admin_sonata_media_media_ckeditor_browser
+            # Display images by default when clicking the image dialog browse button
+            filebrowserImageBrowseRouteParameters:
+                provider: sonata.media.provider.image
+            filebrowserUploadRoute: admin_sonata_media_media_ckeditor_upload
+            filebrowserUploadRouteParameters:
+                provider: sonata.media.provider.file
+            # Upload file as image when sending a file from the image dialog
+            filebrowserImageUploadRoute: admin_sonata_media_media_ckeditor_upload
+            filebrowserImageUploadRouteParameters:
+                provider: sonata.media.provider.image
+                context: blog # Optional, to upload in a custom context
+            htmlEncodeOutput: false
+            entities: false
+
+        portfolio:
+            extraPlugins: "widget,lineutils,syntaxhighlight,oembed,symbol"
+            filebrowserBrowseRoute: admin_sonata_media_media_ckeditor_browser
+            filebrowserImageBrowseRoute: admin_sonata_media_media_ckeditor_browser
+            # Display images by default when clicking the image dialog browse button
+            filebrowserImageBrowseRouteParameters:
+                provider: sonata.media.provider.image
+            filebrowserUploadRoute: admin_sonata_media_media_ckeditor_upload
+            filebrowserUploadRouteParameters:
+                provider: sonata.media.provider.file
+            # Upload file as image when sending a file from the image dialog
+            filebrowserImageUploadRoute: admin_sonata_media_media_ckeditor_upload
+            filebrowserImageUploadRouteParameters:
+                provider: sonata.media.provider.image
+                context: blog # Optional, to upload in a custom context
+            htmlEncodeOutput: false
+            entities: false
+
+cmf_routing:
+    chain:
+        routers_by_id:
+            sonata.page.router: 150
+            router.default: 100
+
+
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: redis://localhost
+            logging: %kernel.debug%
+        cache:
+            type: predis
+            alias: cache
+            dsn: redis://localhost
+            logging: true
+        front_cache:
+            type: predis
+            alias: front_cache
+            dsn: redis://localhost
+            logging: true
+        cluster:
+            type: predis
+            alias: cluster
+            dsn:
+                - redis://127.0.0.1/1
+            options:
+                profile: 2.4
+                connection_timeout: 10
+                connection_persistent: true
+                read_write_timeout: 30
+                iterable_multibulk: false
+                throw_errors: true
+                cluster: Snc\RedisBundle\Client\Predis\Connection\PredisCluster
+                replication: false
+    session:
+        client: default
+        use_as_default: true
+    doctrine:
+        metadata_cache:
+            client: cache
+            entity_manager: default
+            document_manager: default
+        result_cache:
+            client: cache
+            entity_manager: [default, read]
+            document_manager: [default, slave1, slave2]
+            namespace: "dcrc:"
+        query_cache:
+            client: cache
+            entity_manager: default
+    swiftmailer:
+        client: default
+        key: swiftmailer
+
+eko_feed:
+    feeds:
+        posts:
+            title:       'mkaciuba.pl posty'
+            description: 'Ostatnie posty'
+            link:        'https://mkaciuba.pl/blog'
+            encoding:    'utf-8'
+            author:      'Marcin Kaciuba'
+        projects:
+            title:       'mkaciuba.pl projekty'
+            description: 'Ostatnio dodane projekty'
+            link:        'https://mkaciuba.pl/projekty'
+            encoding:    'utf-8'
+            author:      'Marcin Kaciuba'
+
+fos_http_cache:
+    tags:
+        enabled: false
+    proxy_client:
+        default: nginx
+        nginx:
+            servers: 127.0.0.1
+            base_url: mkaciubaprod.dev
+            purge_location: /path
+parameters:
+    max_post_on_home_page: 5
+    max_post_on_page: 9
+
+happyr_cloud_flare:
+  email: tobias@happyr.com
+  token: abcdefghijklmnop
+
+fos_rest:
+    routing_loader:
+        default_format: json

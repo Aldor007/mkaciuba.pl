@@ -1,0 +1,93 @@
+# app/Resources/FOSUserBundle/serializer/Model.User.yml
+Sonata\UserBundle\Model\User:
+    exclusion_policy: None
+    # discriminator:
+    #     field_name: type
+    #     map:
+    #         BaseUser: Sonata\UserBundle\Entity\BaseUser
+    properties:
+        id:
+            expose: true
+            type: integer
+            groups:  [list, details]
+        createdAt:
+            expose: true
+            type: DateTime
+            groups:  [list, details]
+
+        twoStepVerificationCode:
+            expose: true
+            type: string
+            groups:  [list, details]
+        dateOfBirth:
+            expose: true
+            type: DateTime
+            groups:  [list, details]
+        firstname:
+            expose: true
+            type: string
+            groups:  [list, details]
+        lastname:
+            expose: true
+            type: string
+            groups:  [list, details]
+        website:
+            expose: true
+            type: string
+            groups:  [list, details]
+        biography:
+            expose: true
+            type: string
+            groups:  [list, details]
+        gender:
+            expose: true
+            type: string
+            groups:  [list, details]
+        locale:
+            expose: true
+            type: string
+            groups:  [list, details]
+        phone:
+            expose: true
+            type: string
+            groups:  [list, details]
+        facebookUid:
+            expose: true
+            type: string
+            groups:  [list, details]
+        facebookName:
+            expose: true
+            type: string
+            groups:  [list, details]
+        facebookData:
+            expose: true
+            type: array
+            groups:  [list, details]
+        twitterUid:
+            expose: true
+            type: string
+            groups:  [list, details]
+        twitterData:
+            expose: true
+            type: array
+            groups:  [list, details]
+        twitterName:
+            expose: true
+            type: string
+            groups:  [list, details]
+        gplusUid:
+            expose: true
+            type: string
+            groups:  [list, details]
+        gplusData:
+            expose: true
+            type: array
+            groups:  [list, details]
+        gplusName:
+            expose: true
+            type: string
+            groups:  [list, details]
+        token:
+            expose: true
+            type: string
+            groups:  [list, details]

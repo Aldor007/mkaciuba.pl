@@ -1,0 +1,18 @@
+# Time ago in words - Twig Extension
+less than %seconds seconds ago: mniej niż %seconds temu
+half a minute ago: pół minuty temu
+less than a minute ago: mniej niż minutę temu
+1 minute ago:  1 minuta temu
+%minutes minutes ago:  %minutes minut temu
+about 1 hour ago: godzinę temu
+about %hours hours ago: %hours godzin(y) temu
+1 day ago:  1 dzien temu
+%days days ago: %days dni temu
+1 month ago : 1 miesiąc temu
+%months months ago: %months miesięce temu
+1 year ago: 1 rok temu
+%years years ago: %years lata temu
+"{1} 1 month ago |]1,Inf[ %months months ago":  "{1} 1 miesięc temu |]1,Inf[ %months miesięce temu"
+"{1} 1 year ago |]1,Inf[ %years years ago":  "rok temu |]1,Inf[ %years lata temu"
+Previous: Poprzednia
+Next: Następna

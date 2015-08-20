@@ -1,0 +1,69 @@
+fos_elastica:
+    clients:
+        default: { host: 10.8.0.54, port: 9200 }
+    indexes:
+        search:
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            my_analyzer:
+                                type: standard
+                                language: English
+            types:
+                post:
+                    mappings:
+                        title: { boost: 10, analyzer: my_analyzer }
+                        description: ~
+                        content: ~
+                        keywords: ~
+                        tags: ~
+                        category: ~
+                        date: ~
+                    persistence:
+                        driver: orm
+                        model: Aldor\BlogBundle\Entity\Post
+                        provider:
+                        listener:
+                        finder:
+                photo_category:
+                    mappings:
+                        description: ~
+                        keywords: ~
+                        photos: ~
+                    persistence:
+                        driver: orm
+                        model: Aldor\GalleryBundle\Entity\PhotoCategory
+                        provider:
+                        listener:
+                        finder:
+                project:
+                    mappings:
+                        description: ~
+                        keywords: ~
+                        name: ~
+                        content: ~
+                        date: ~
+                    persistence:
+                        driver: orm
+                        model: Aldor\PortfolioBundle\Entity\Project
+                        provider:
+                        listener:
+                        finder:
+                photo:
+                    mappings:
+                        title: ~
+                        image: ~
+                        category: ~
+                        date: ~
+                    persistence:
+                        driver: orm
+                        model: Aldor\GalleryBundle\Entity\Photo
+                        provider:
+                        listener:
+                        finder:
+                timestamp:
+                   mappings:
+                       timestamp:
+                          type: date  
+

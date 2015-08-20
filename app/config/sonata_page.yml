@@ -1,0 +1,160 @@
+sonata_page:
+    multisite: host
+    use_streamed_response: true # set the value to false in debug mode or if the reverse proxy does not handle streamed response
+    ignore_route_patterns:
+        - ^(.*)admin(.*)   # ignore admin route, ie route containing 'admin'
+        - ^_(.*)          # ignore symfony routes
+
+    ignore_routes:
+        - sonata_page_esi_cache
+        - sonata_page_ssi_cache
+        - sonata_page_js_sync_cache
+        - sonata_page_js_async_cache
+        - sonata_cache_esi
+        - sonata_cache_ssi
+        - sonata_cache_js_async
+        - sonata_cache_js_sync
+        - sonata_cache_apc
+        - blog_rss
+
+    ignore_uri_patterns:
+        - ^/admin\/   # ignore admin route, ie route containing 'admin'
+        - ^/rss\/   # ignore admin route, ie route containing 'admin'
+
+    page_defaults:
+        homepage: {decorate: false} # disable decoration for homepage, key - is a page route
+
+    default_template: page # template key from templates section, used as default for pages
+
+    # manage the http errors
+    # catch_exceptions:
+    #     not_found: [404]    # render 404 page with "not_found" key (name generated: _page_internal_error_{key})
+    #     fatal:     [500]    # so you can use the same page for different http errors or specify specific page for each error
+
+    # [...]
+    templates:
+        inftech:
+            path: 'ApplicationSonataPageBundle::home_layout.html.twig'
+            name: 'default-inftech'
+            containers:
+                header:
+                    name: Header
+                content_left:
+                    name: Left main content
+                content_right:
+                    name: right content
+                footer:
+                    name: Footer
+                footer_left:
+                    name: Footer left
+                footer_right:
+                    name: Footer right
+            matrix:
+                layout: |
+                    HHHHHHHH
+                    TTTTTTBB
+                    TTTTTTBB
+                    TTTTTTBB
+                    TTTTTTBB
+                    LLFFFFRR
+
+                mapping:
+                    H: header
+                    T: content_left
+                    B: content_right
+                    F: footer
+                    L: footer_left
+                    R: footer_right
+        gallery:
+            path: 'ApplicationSonataPageBundle::gallery_layout.html.twig'
+            name: 'gallery-inftech'
+            containers:
+                header:
+                    name: Header
+                content:
+                    name: Main content
+                footer:
+                    name: Footer
+                footer_left:
+                    name: Footer left
+                footer_right:
+                    name: Footer right
+            matrix:
+                layout: |
+                    HHHHHHHH
+                    CCCCCCCC
+                    CCCCCCCC
+                    LLFFFFRR
+
+                mapping:
+                    H: header
+                    T: content_top
+                    C: content
+                    B: content_bottom
+                    F: footer
+                    L: footer_left
+                    R: footer_right
+        homepage:
+            path: 'AldorInftechBundle:Default:index.html.twig'
+            name: 'homepage'
+            containers:
+                header:
+                    name: Header
+                content_top:
+                    name: Top content
+                content:
+                    name: Main content
+                content_bottom:
+                    name: Bottom content
+                footer:
+                    name: Footer
+                footer_left:
+                    name: Footer left
+                footer_right:
+                    name: Footer right
+            matrix:
+                layout: |
+                    HHHHHHHH
+                    TTTTTTTT
+                    TTTTTTTT
+                    CCCCCCCC
+                    CCCCCCCC
+                    BBBBBBBB
+                    BBBBBBBB
+                    LLFFFFRR
+
+                mapping:
+                    H: header
+                    T: content_top
+                    C: content
+                    B: content_bottom
+                    F: footer
+                    L: footer_left
+                    R: footer_right
+        page:
+            path: 'ApplicationSonataPageBundle::page_layout.html.twig'
+            name: 'page'
+            containers:
+                header:
+                    name: Header
+                content:
+                    name: Main content
+                footer:
+                    name: Footer
+                footer_left:
+                    name: Footer left
+                footer_right:
+                    name: Footer right
+            matrix:
+                layout: |
+                    HHHHHHHH
+                    CCCCCCCC
+                    CCCCCCCC
+                    LLFFFFRR
+
+                mapping:
+                    H: header
+                    C: content
+                    F: footer
+                    L: footer_left
+                    R: footer_right

@@ -1,0 +1,57 @@
+imports:
+    - { resource: config.yml }
+    - { resource: statsd.yml }
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: info
+
+
+
+
+sonata_media:
+    cdn:
+        server:
+            path: //static.mkaciuba.pl/uploads/media
+
+fos_http_cache:
+    proxy_client:
+        nginx:
+            servers: 127.0.0.1
+            base_url: mkaciuba.pl
+            purge_location: /purge
+    cache_control:
+        rules:
+            - match:
+                path: ^/(admin|login|profile).*
+              headers:
+                cache_control: { public: false, max_age: 0, s_maxage: 0, no-cache: true}
+                last_modified: "+1 minutes"
+            - match:
+                path: ^/media/cache.*
+              headers:
+                cache_control: { public: true, max_age: 6500, s_maxage: 9000 }
+                last_modified: "-30 minutes"
+                vary: [Accept-Encoding, Accept-Language]
+            - match:
+                path: ^/media/download.*
+              headers:
+                cache_control: { public: true, max_age: 6500, s_maxage: 9000 }
+                last_modified: "-30 days"
+            - match:
+                path: ^/
+              headers:
+                overwrite: false
+                cache_control: { public: true, max_age: 150, s_maxage: 300 }
+                last_modified: "-10 minutes"
+
+happyr_cloud_flare:
+  email: mail
+  token: token

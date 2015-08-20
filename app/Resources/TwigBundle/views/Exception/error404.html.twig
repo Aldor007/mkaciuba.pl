@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>   <html class="no-js lt-ie9 lt-ie8 lt-ie7" {{ sonata_seo_html_attributes() }}> <![endif]-->
+<!--[if IE 7]>      <html class="no-js lt-ie9 lt-ie8" {{ sonata_seo_html_attributes() }}}> <![endif]-->
+<!--[if IE 8]>      <html class="no-js lt-ie9" {{ sonata_seo_html_attributes() }}> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" {{ sonata_seo_html_attributes() }}> <!--<![endif]-->
+        <head {{ sonata_seo_head_attributes() }}>
+
+            {{ sonata_seo_title() }}
+            {{ sonata_seo_metadatas() }}
+            {{ sonata_seo_link_canonical() }}
+            {{ sonata_seo_lang_alternates() }}
+    <meta charset="utf-8">
+                {% stylesheets
+                   '@AldorInftechBundle/Resources/public/vendor/bootstrap/css/bootstrap.min.css'
+                   '@AldorInftechBundle/Resources/public/vendor/font-awesome/css/font-awesome.min.css'
+                   '@AldorInftechBundle/Resources/assetic/less/endless/endless.less'
+                %}
+                    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+                {% endstylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset('bundles/bmatznerfontawesome/css/font-awesome.min.css') }}" />
+
+    
+  </head>
+
+  <body>
+    <div id="wrapper">
+        <div class="padding-md" style="margin-top:50px;">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 text-center">
+                    <div class="h5">Ups, Tej strony nie znaleziono</div>
+                    <h1 class="m-top-none error-heading">404</h1>
+                    <h4>Przeszukaj stronę</h4>
+                    <div>Nie możesz znaleść tego czego szukasz?</div>
+                    <div class="m-bottom-md">Spróbuj wyszukać tu...</div>
+                                        <form name="search" method="get" action="/szukaj">
+
+                    <div class="input-group m-bottom-md">
+   
+                        <input  id="search" name="search" required="required" type="text" class="form-control input-sm" placeholder="Szukaj..">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default btn-sm" type="submit"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div><!-- /input-group --> 
+                                        </form>
+
+                    <a class="btn btn-success m-bottom-sm" href="/"><i class="fa fa-home"></i>Powrót na strone główna</a>
+                    <a class="btn btn-success m-bottom-sm" href="/kontakt"><i class="fa fa-envelope"></i>Kontakt</a>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.padding-md -->
+    </div><!-- /wrapper -->
+
+    
+    <!-- Modernizr -->
+        {% javascripts
+            '@AldorInftechBundle/Resources/public/vendor/modernizr-2.6.2-respond-1.1.0.min.js'
+            '@AldorInftechBundle/Resources/public/vendor/jquery-1.10.1.min.js'
+            '@AldorInftechBundle/Resources/public/vendor/bootstrap/js/bootstrap.min.js'
+            '@AldorInftechBundle/Resources/public/vendor/pace.min.js'
+            '@AldorInftechBundle/Resources/public/vendor/jquery.popupoverlay.min.js'
+            '@AldorInftechBundle/Resources/public/vendor/jquery.slimscroll.min.js'
+            '@AldorInftechBundle/Resources/public/vendor/jquery.cookie.min.js'
+            '@AldorInftechBundle/Resources/public/js/endless/endless.js'
+        %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    
+  </body>
+</html>
+

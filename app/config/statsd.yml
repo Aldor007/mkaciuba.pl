@@ -1,0 +1,53 @@
+# app/config/config.yml
+liuggio_stats_d_client:
+  monolog:
+    enable: true
+    prefix: 'mkaciuba'
+    formatter:
+       class: Liuggio\StatsdClient\Monolog\Formatter\StatsDFormatter
+       context_logging: true # if you want additional packets for context.
+       extra_logging: true   # if you want additional packets for extra.
+       words: 2              # the number of the word in the stats key.
+    level: 'warning'
+  connection:
+    host: localhost
+    port: 8125
+    protocol: udp
+    reduce_packet: true
+    fail_silently: true
+  enable_collector: true
+  collectors:
+    liuggio_stats_d_client.collector.dbal: 'mkaciuba.query'
+    liuggio_stats_d_client.collector.visitor: 'mkaciuba.visitor'
+    liuggio_stats_d_client.collector.memory: 'mkaciuba.memory'
+    liuggio_stats_d_client.collector.exception: 'mkaciuba.exception'
+    liuggio_stats_d_client.collector.time: 'mkaciuba.time' # the time is a "fake" one, it is ~100ms smaller than the Kernel but you can still monitor the evolution of your application
+
+socloz_monitoring:
+    exceptions:
+        enable: true
+        ignore: ['Symfony\Component\HttpKernel\Exception\NotFoundHttpException','Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException']
+    profiler:
+        enable: true
+        sampling: 100
+        mongodb: false
+        request: false
+        redis: true
+        sphinx: false
+    mailer:
+        enable: true
+        from: monitoring@mkaciuba.pl
+        to: aldor007@gmail.com
+    statsd:
+        enable: true
+        host: localhost
+        port: 8125
+        prefix: mkaciuba
+        always_flush: false
+        merge_packets: false
+        packet_size: 1432
+    request_id:
+        enable: false
+        add_pid: false
+    logger:
+        enable: true

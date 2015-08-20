@@ -1,0 +1,25 @@
+sonata_notification:
+    # backend: sonata.notification.backend.doctrine
+    backend: sonata.notification.backend.beanstalkd
+
+
+    backends:
+        # doctrine:
+        #     message_manager: sonata.notification.manager.message.default
+        #     max_age:         8640     # max age in second
+        #     pause:           500000    # delay in microseconds
+        #     batch_size:      10        # number of messages on each iteration
+        #     states:                    # raising errors level
+        #         in_progress: 10
+        #         error:       20
+        #         open:        100
+        #         done:        10000
+        beanstalkd:
+
+
+    queues:
+        - { queue: catchall, default: true}
+
+    consumers:
+        register_default: true    # if set to true, SwiftMailerConsumer and LoggerConsumer will be registered as services
+

@@ -1,0 +1,38 @@
+# # app/Resources/FOSUserBundle/serializer/Model.User.yml
+FOS\UserBundle\Entity\User:
+    exclusion_policy: None
+#     properties:
+#         id:
+#             expose: true
+#             type: integer
+#             groups:  [list, details]
+#         createdAt:
+#             expose: true
+#             type: DateTime
+#             groups:  [list, details]
+# 
+# 
+#         twoStepVeriiiiificationCode:
+#             expose: true
+#             type: string
+#             groups:  [list, details]
+#         dateOfBirth:
+#             expose: true
+#             type: DateTime
+#             groups:  [list, details]
+#         email:
+#             expose: true
+#             type: string
+#             groups:  [list, details]
+#         emailcannonical:
+#             expose: true
+#             type: string
+#             groups:  [list, details]
+#         username:
+#             expose: true
+#             type: string
+#             groups:  [list, details]
+#         token:
+#             expose: true
+#             type: string
+#             groups:  [list, details]

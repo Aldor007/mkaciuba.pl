@@ -1,0 +1,37 @@
+nelmio_security:
+    # signs/verifies all cookies
+    # signed_cookie:
+    #     names: ['*']
+    # encrypt all cookies
+    # encrypted_cookie:
+    #     names: ['*']
+    # prevents framing of the entire site
+    clickjacking:
+        paths:
+            '^/blog*': DENY
+    # prevents redirections outside the website's domain
+    external_redirects:
+        abort: false
+        log: true
+
+    # prevents inline scripts, unsafe eval, external scripts/images/styles/frames, etc
+    # csp:
+    #     report:
+    #         report-uri: [/nelmio/csp/report]
+    #         default-src: [ 'self' ]
+    #         # There's no flash on our site
+    #         object-src:
+    #             - 'none'
+    #         script-src:
+    #             - 'unsafe-inline'
+    #             - 'unsafe-eval'
+    #             - 'self'
+    #     enforce:
+    #         # see https://github.com/nelmio/NelmioSecurityBundle/issues/32
+    #         report-uri: [/nelmio/csp/report]
+    #         script-src:
+    #             - 'self'
+
+    # disables content type sniffing for script resources
+    content_type:
+        nosniff: true

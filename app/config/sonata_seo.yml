@@ -1,0 +1,46 @@
+#
+# more information can be found here http://sonata-project.org/bundles/page
+#
+sonata_seo:
+    encoding:             UTF-8
+    page:
+        default:          sonata.seo.page.default
+        title:            Marcin Kaciuba devblog | mkaciuba.pl
+        metas:
+            name:
+                keywords:             Marcin Kaciuba devblog cpp c++ nodejs python administracja fotografia zdjęcia Kraków Sułkowice
+                description:          Strona programisty, miłośnika nowych technologii i fotografii. Przemyślenia, porady, opinie o świecie IT. Portfolio fotograficzne
+                robots:               index, follow
+                application-name:     mkaciuba.pl
+            property:
+                # Facebook application settings
+                'fb:app_id':          '1664617460426036'
+                'fb:admins':          '1388383243'
+                # 'artilce:publisher':   https://www.facebook.com/marcinkaciubablog
+
+                # Open Graph information
+                # see http://developers.facebook.com/docs/opengraphprotocol/#types or http://ogp.me/
+                'og:site_name':      mkaciuba.pl
+                'og:title':         'Marcin Kaciuba devblog | mkaciuba.pl | Przemyślenia, porady, opinie o świecie'
+                'mk:title':         'mkaciuba.pl | Strona programisty, miłośnika nowych technologii i fotografii. Przemyślenia, porady, opinie o świecie IT.'
+                'og:description':    'Strona programisty, miłośnika nowych technologii i fotografii. Przemyślenia, porady, opinie o świecie IT. Portfolio fotograficzne'
+                'og:type': website
+                'og:locale': 'pl_PL'
+                # 'og:image': '//static.mkaciuba.pl/images/logo.png'
+
+            http-equiv:
+                'Content-Type':         text/html; charset=utf-8
+                'X-Ua-Compatible':      IE=EmulateIE7
+
+        head:
+            'lang':                 pl-PL
+
+    sitemap:
+        doctrine_orm:
+            # blog post
+            - { connection: doctrine.dbal.default_connection, route: blog_post, parameters: {year: null, month: null, title: null}, query: "SELECT YEAR(date) as year, MONTH(date) as month, title_slug as title, modified as lastmod, 'weekly' as changefreq, '0.5' as prioriy FROM posts WHERE (publicationDateStart IS NOT NULL OR publicationDateStart <= NOW() and public = 1)"}
+            # page - works only for one site, please adapt the code if required
+            - { connection: doctrine.dbal.default_connection, route: portfolio_project, parameters: {slug: null}, query: "SELECT slug, date as lastmod, 'monthly' as changefreq, '0.2' as prioriy FROM project"}
+            - { connection: doctrine.dbal.default_connection, route: page_slug, parameters: {path: null}, query: "SELECT distinct(url) as path, updated_at as lastmod, 'weekly' as changefreq, '0.5' as prioriy FROM page__snapshot WHERE route_name = 'page_slug' AND enabled = 1 AND (publication_date_start IS NULL OR publication_date_start <= NOW()) group by url" }
+            - { connection: doctrine.dbal.default_connection, route: gallery_photocategory, parameters: {galleryslug: null, photocategoryslug: null}, query: "SELECT gallery.slug as galleryslug, photoscategory.slug as photocategoryslug, max(date) as lastmod, 'monthly' as changefreq, '0.3' as prioriy FROM photoscategory, gallery, photos  where photos.id in (select photo_id from photo_categories pc where pc.photocategory_id = photoscategory.id) group by  gallery.slug, photoscategory.slug" }
+

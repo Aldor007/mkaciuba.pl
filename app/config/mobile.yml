@@ -1,0 +1,7 @@
+mobile_detect:
+    redirect:
+        mobile: ~
+        tablet: ~
+    switch_device_view: ~
+    device_view_class: Aldor\InftechBundle\Helper\DeviceView
+

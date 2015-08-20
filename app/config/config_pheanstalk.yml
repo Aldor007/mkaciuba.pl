@@ -1,0 +1,5 @@
+leezy_pheanstalk:
+    pheanstalks:
+        primary:
+            server: 10.8.0.54
+            default: true
