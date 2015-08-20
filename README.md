@@ -1,4 +1,4 @@
-mkaciuba.pl - HomePage
+mkaciuba.pl
 =========================
 
 Introduction
@@ -12,7 +12,7 @@ Features
 * Use http headers to cache html
 * Doctrine ORM cache
 * Redis cache for most used objects
-* Search form uses ElastiSearch
+* Search form uses ElasticSearch
 * SonataNotification with beanstald backend. Used for:
  * cache purge with FOSHttpCacheBundle and in my case cloudflare cache
  * generating thumbnails for images with SonataMediaBundle

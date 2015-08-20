@@ -2,7 +2,7 @@
     "name": "aldor007/mkaciuba.pl",
     "license": "MIT",
     "type": "project",
-    "description": "mkaciuba.pl source vode",
+    "description": "mkaciuba.pl source code",
     "autoload": {
         "psr-0": { "": "src/" }
     },
