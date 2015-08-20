@@ -1,0 +1,36 @@
+<div class="item active">
+<h2 class="section-title ribbon ribbon-focus"><a href="{{ path(routeName) }}"> {{ title}}</a></h2>
+
+<div class="row entries">
+    {% for entry in entiies %}
+    <article class="entry style-grid type-post col-md-6 col-lg-3 colheight-sm-1">
+        
+        <header class="entry-header">
+            <p class="small"><a href="blog.html">{{ entry.category }}</a></p>
+            <h3 class="entry-title"><a href="single.html">{{ entry.title }}</a> </h3>
+            <div class="entry-meta">
+                <span class="entry-date"><a href="blog.html"><time datetime="{{entry.date|date(dateFormat)}}">{{ entry.date | time_ago_in_words(false, true) }}</time></a></span>
+                <span class="entry-author"> by Aldor</span>
+            </div>
+        </header>
+        
+        <figure class="entry-thumbnail">
+
+            <a href="single.html" class="overlay overlay-primary"></a>
+
+            <!-- to disable lazy loading, remove data-src and data-src-retina -->
+            <img src="../img/placeholder.gif" data-src="http://placehold.it/480x280" data-src-retina="http://placehold.it/720x420" width="480" height="280" alt="">
+
+            <!--fallback for no javascript browsers-->
+            <noscript>
+                <img src="http://placehold.it/480x280" alt="">
+            </noscript>
+
+        </figure>
+
+    </article>
+    {% endfor %}
+
+</div><!--/.row.entries-->
+
+</div><!--/.item-->

@@ -1,0 +1,36 @@
+<div class="item {% if active %}active {%endif%}">
+<h2 class="section-title ribbon ribbon-focus"><a href="{{ path('gallery_show', {'slug': gallery.slug}) }}"> {{ title}}</a></h2>
+
+<div class="row entries">
+    {% for entry in entities %}
+    <article class="entry style-grid type-post col-md-6 col-lg-3 colheight-sm-1">
+        
+        <header class="entry-header">
+            <p class="small"><a href="{{ path('gallery_photocategory', {'galleryslug': entry.categories[0].gallery.slug, 'photocategoryslug': entry.categories[0].slug})}}">{{ entry.category }}</a></p>
+            <h3 class="entry-title"><a href="{{ path('gallery_photocategory', {'galleryslug': entry.categories[0].gallery.slug, 'photocategoryslug': entry.categories[0].slug})}}">{{ entry.title }}</a> </h3>
+            <div class="entry-meta">
+                <span class="entry-date"><a href="{{ path('gallery_photocategory', {'galleryslug': entry.categories[0].gallery.slug, 'photocategoryslug': entry.categories[0].slug})}}"><time datetime="{{entry.date|date(dateFormat)}}">{{ entry.date | time_ago_in_words(false, true)|trans }}</time></a></span>
+            </div>
+        </header>
+        
+        <figure class="entry-thumbnail">
+
+            <a href="{{ path('gallery_photocategory', {'galleryslug': entry.categories[0].gallery.slug, 'photocategoryslug': entry.categories[0].slug})}}" class="overlay overlay-primary"></a>
+
+            {% set img_url = media_public_url(entry.image, imageSize)   %}
+            {% include "AldorInftechBundle::image.html.twig" with {
+                "img_url": img_url,
+                "alt": entry.title,
+                "width": "480",
+                "height": "280"
+            }
+            %}
+
+        </figure>
+
+    </article>
+    {% endfor %}
+
+</div><!--/.row.entries-->
+
+</div><!--/.item-->

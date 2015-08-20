@@ -1,0 +1,9 @@
+services:
+    application.serializer.listener.media:
+        class: Application\Sonata\MediaBundle\Listener\SerializationListener
+        tags:
+            - {name: jms_serializer.event_subscriber}
+    application.sonata.media.ckeditor.extension:
+        class: Application\Sonata\MediaBundle\Admin\AdminExtension
+        tags:
+            - {name: sonata.admin.extesnion, target: sonata.media.admin.media}

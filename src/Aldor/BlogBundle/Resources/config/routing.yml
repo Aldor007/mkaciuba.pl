@@ -1,0 +1,36 @@
+blog_category:
+    pattern: /kategoria/{slug}/{page}
+
+    defaults: { _controller: AldorBlogBundle:Blog:postCategory,page: 1 }
+    requirements:
+        page: \d+
+
+blog_tag:
+    pattern: /tag/{slug}/{page}
+    defaults: { _controller: AldorBlogBundle:Blog:tagPosts, page: 1}
+
+blog_home:
+    pattern: /{page}
+    defaults: { _controller: AldorBlogBundle:Blog:index,page: 1 }
+    requirements:
+        page: \d+
+blog_archive:
+    pattern: /{year}/{month}{page}
+    defaults: { _controller: AldorBlogBundle:Blog:archive, page: 1 }
+    requirements:
+        year: \d+
+        month: \d+
+        page: \d+
+
+blog_post:
+    pattern: /{year}/{month}/{title}
+    defaults: { _controller: AldorBlogBundle:Blog:post }
+    requirements:
+        year: \d+
+        month: \d+
+
+blog_rss:
+    pattern: /rss
+    defaults: { _controller: AldorBlogBundle:Blog:feed}
+
+

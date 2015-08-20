@@ -1,0 +1,84 @@
+    
+                        <link href="/bundles/aldorgallery/css/style.css" type="text/css" rel="stylesheet" media="screen" />
+        <script type="text/javascript" src="/bundles/aldorgallery/js/modernizr.custom.70736.js"></script>
+        <noscript>
+                <link href="/bundles/aldorgallery/css/noJS.css" type="text/css" rel="stylesheet" media="screen" />
+        </noscript>
+        <!--[if lte IE 7]><style>.main{display:none;} .support-note .note-ie{display:block;}</style><![endif]-->
+
+   
+               <div class="content section row">
+               <header class="clearfix">
+                
+
+                    
+                </header>
+                
+                <div class="gamma-container gamma-loading" id="gamma-container">
+
+                    <ul class="gamma-gallery">
+                    
+                {% for photo in photos %}
+                        <li>
+                            <div data-alt="" data-description="<h3>{{photo.title}}</h3>" data-max-width="1800" data-max-height="1350">
+                                <div data-src="{% path photo.image, 'big1300'  %}" data-min-width="1300"></div>
+                                <div data-src="{% path photo.image, 'big1000'  %}" data-min-width="1000"></div>
+                                <div data-src="{% path photo.image, 'big700'  %}" data-min-width="700"></div>
+                                <div data-src="{% path photo.image, 'big300'  %}" data-min-width="300"></div>
+                                <div data-src="{% path photo.image, 'big200'  %}" data-min-width="200"></div>
+                                <div data-src="{% path photo.image, 'big200'  %}" data-min-width="140"></div>
+                                <div data-src="{% path photo.image, 'big200'  %}"></div>
+                                <noscript>
+                                    <img src="{% path photo.image, 'big200'  %}" alt="{{ photo.title}}"/>
+                                </noscript>
+                            </div>
+                        </li>
+            {% else %}
+                    <div class="info">Brak zdjec.</div>
+    {% endfor %}
+        </ul>
+            <div class="gamma-overlay"></div>
+            <div id="loadmore" class="loadmore">
+            <a href="/galeria/{{ gallery.slug}}/{{category.slug}}">Galeria</a>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript" src="/bundles/aldorgallery/js/jquery.masonry.min.js"></script>
+        <script type="text/javascript" src="/bundles/aldorgallery/js/jquery.history.js"></script>
+        <script type="text/javascript" src="/bundles/aldorgallery/js/js-url.min.js"></script>
+        <script type="text/javascript" src="/bundles/aldorgallery/js/jquerypp.custom.js"></script>
+        <script type="text/javascript" src="/bundles/aldorgallery/js/gamma.js"></script>
+<script type="text/javascript">
+            
+            $(function() {
+
+                var GammaSettings = {
+                        // order is important!
+                        viewport : [ {
+                            width : 1200,
+                            columns : 5
+                        }, {
+                            width : 900,
+                            columns : 4
+                        }, {
+                            width : 500,
+                            columns : 3
+                        }, { 
+                            width : 320,
+                            columns : 2
+                        }, { 
+                            width : 0,
+                            columns : 2
+                        } ]
+                };
+
+                Gamma.init( GammaSettings, function() {});
+
+
+
+            });
+
+        </script>   
+

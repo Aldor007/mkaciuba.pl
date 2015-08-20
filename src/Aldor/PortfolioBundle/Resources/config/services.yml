@@ -1,0 +1,15 @@
+services:
+    aldor.portfolio.admin.Technology:
+        class: Aldor\BackendBundle\Admin\TechnologyAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: portfolio, label: Technology }
+        arguments: [null,Aldor\PortfolioBundle\Entity\Technology, AldorBackendBundle:TechnologyAdmin]
+
+    aldor.portfolio.admin.project:
+        class: Aldor\BackendBundle\Admin\ProjectAdmin
+        calls:
+            - [setPoolFormatter, [ @sonata.formatter.pool]]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: portfolio, label: Projects }
+        arguments: [null, Aldor\PortfolioBundle\Entity\Project, AldorBackendBundle:ProjectAdmin ]
+

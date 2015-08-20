@@ -1,0 +1,129 @@
+{% block container %}
+<div id="main" class="container">
+    {% block content %}
+            <div id="content" class="content section row">
+
+                <div class="col-md-8 bg-base col-lg-8 col-xl-9">
+
+                    <div class="ribbon ribbon-highlight">
+                        <ol class="breadcrumb ribbon-inner">
+                            <li><a href="{{ path('page_slug', {'path': '/'}) }}" >Home</a></li>
+                            <li><a href="{{ path('blog_home') }}" >Blog</a></li>
+                            {% if category is defined %}
+                                <li class="active">{{ category.name }}</li>
+                            {% endif %}
+                            {% if tag is defined %} 
+                                <li class="active">tag {{ tag.name }}</li>
+                            {% endif %}
+
+                        </ol>
+                    </div>
+
+                    <header class="page-header">
+                        
+                        <h2 class="page-title">
+                            {% block blog_header %}
+                                {% if category is defined %}
+                                    {{ category.name}}
+                                {% elseif tag is defined %}
+                                    Tag {{ tag.name }}
+                                {% else %}
+                                    Blog
+                                {% endif %}
+                            {% endblock blog_header %}
+                        </h2>
+
+                    </header>
+
+                    <div class="entries">
+
+                    {% for post in posts %}
+                        <article class="entry style-large type-post">
+
+                            {% if post.media %}
+                                {% if is_full_view() or is_tablet_view() %}
+
+                            <figure class="entry-thumbnail hidden-xs">
+
+                                  <a href="{{ path('blog_post', {  'year': post.date | date("Y"), 'month': post.date | date("m"),  'title': post.titleslug}) }}" class="more-link">
+ 
+                                    {% set img_url = media_relative_url(post.media, 'reference') | imagine_filter('blog_medium')  %}
+                                    {% include "AldorInftechBundle::image.html.twig" with {
+                                        "img_url": img_url,
+                                        "alt": post.title
+                                    }
+                                    %}
+                                 </a>
+                            
+                            </figure>
+                                {% endif %}
+                            {% endif %}
+
+
+                                <header class="entry-header">
+                                    <h3 class="entry-title">
+                                        <a href="{{ path('blog_post', {  'year': post.date | date('Y'), 'month': post.date | date('m'), 'title': post.titleslug}) }}">
+                                        {{ post.title }}</a>
+                                    </h3>
+
+                                    <div class="entry-meta">
+                                        <span class="entry-date"> <time datetime="{{ post.date | date(dateFormat) }} ">{{ post.date | format_date(null, 'pl', 'Europe/Warsaw')}}</time></span>
+                                        <span class="category">w <a href="{{ path('blog_category', { 'slug': post.category.slug}) }}"> {{ post.category.name}} </a></span>
+                                    </div>
+
+                                </header>
+
+                                    {{ post.description | raw}}
+                                    <a href="{{ path('blog_post', {  'year': post.date | date('Y'), 'month': post.date | date('m'), 'title': post.titleslug}) }}" class="more-link">
+                                    Czytaj więcej
+                                    <i class="icon icon-long-arrow-right"></i></a>
+
+
+                        </article>
+                        {% else %}
+                            Brak postów.
+                        {% endfor %}
+                    </div>
+        {{ knp_pagination_render(posts) }}
+                </div>
+                
+                            {{ sonata_page_render_container('content_left') }}
+                        
+    {% endblock content %}
+    {% block sidebar %}
+                <div class="sidebar col-md-4 col-lg-4 col-xl-3">
+                            {% cache 'v1/all_categories' 900 %}
+                            {{ sonata_block_render({ 'type': 'aldor.block.service.categories' }, {
+                                'title': 'Kategorie',
+                                 'template': 'AldorBlogBundle:PostCategory:categories.html.twig'
+                            }) }}
+                            {% endcache %}
+                        
+                    {% if category is defined %}
+                        {{ sonata_block_render({ 'type': 'aldor.block.service.recentposts' }, {
+                        'title': 'Ostatnie posty z ',
+                         'template': 'AldorBlogBundle:Post:recent_posts_from_category.html.twig',
+                        'max': 3
+                        }) }}
+                        
+                    {% endif%}
+
+                       
+                            {% cache 'v1/allTags' 900%}
+                                {{ sonata_block_render({ 'type': 'aldor.block.service.tags' }, {
+                                'title': 'Tagi',
+                                 'template': 'AldorBlogBundle:Tag:tags.html.twig'
+                                }) }}
+                        {% endcache %}
+                       {% include 'SonataSeoBundle:Block:_facebook_sdk.html.twig' %}
+                        {{ sonata_page_render_container('content_right') }}
+                        
+
+                            
+
+
+        </div><!--/.sidebar col-md-4 col-lg-4 col-xl-3-->
+    </div>
+    {% endblock sidebar %}
+</div>
+{% endblock %}

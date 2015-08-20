@@ -1,0 +1,32 @@
+{% if posts|length > 0 %}
+{% embed 'AldorInftechBundle::sidebar.html.twig'  %}
+{% block siedebar_title%}Ostatnie posty {% if category %} z {{ category.name }}{% endif %} {% endblock%}
+    {%block siedebar_content %}
+    {% for post in posts%}
+        <article class="type-post style-media-list media col-sm-6 col-md-12">
+          
+            {% set img_url = media_public_url(post.media, 'small')   %}
+            {% include "AldorInftechBundle::image.html.twig" with {
+                "img_url": img_url,
+                "alt": post.title,
+                "width": "80",
+                "height": "80",
+                "class": "media-object pull-left"
+
+            }
+            %} 
+                <div class="media-body">
+                    <h3  class="entry-title">
+                        <a href="{{ path('blog_post', { 'year': post.date | date('Y'), 'month': post.date | date('m'), 'title': post.titleslug }) }}" rel="bookmark">{{ post.title }}</a>
+                    </h3>
+                    <div class="entry-meta">
+                        <span class="entry-date"> <time datetime="{{ post.date | format_datetime  }} ">{{ post.date | format_date(null, 'pl', 'Europe/Warsaw' ) }}</time></span>
+                        <span class="category">w <a href="{{ path('blog_category', { 'slug': post.category.slug}) }}"> {{ post.category.name}} </a></span>
+                    </div>
+                </div>
+        </article>
+    {%endfor%}
+
+    {% endblock%}
+{% endembed %}
+{%endif%}

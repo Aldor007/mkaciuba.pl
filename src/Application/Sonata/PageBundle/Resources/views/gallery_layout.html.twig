@@ -1,0 +1,37 @@
+{% block sonata_page_html_tag %}
+{% embed 'ApplicationSonataPageBundle::header.html.twig' %}
+                {% block head_stylesheets%}
+                    {% stylesheets
+                       '@AldorGalleryBundle/Resources/assetic/less/base.less'
+                       '@AldorInftechBundle/Resources/assetic/less/components.less'
+                       '@AldorInftechBundle/Resources/assetic/less/light.less'
+                        output='css/gallery.header.min.css' filter='uglifycss'
+
+                    %}
+                        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+                    {% endstylesheets %}
+                 {% endblock head_stylesheets %}
+{% endembed%}
+
+    {% endblock%}
+{% block sonata_page_container %}
+
+
+{% block container %}
+    {% block page_content %}
+        {% if content is defined %}
+            {{ content|raw }}
+        {% else %}
+            {% set content = block('content') %}
+            {% if content|length > 0 %}
+                {{ content|raw }}
+            {% elseif page is defined %}
+                {{ sonata_page_render_container('content', page) }}
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+{% endblock %}
+{% block body_end %}
+{% endblock body_end %}
+
+{% endblock sonata_page_container %}

@@ -1,0 +1,15 @@
+   {% block content_asidei %}
+<aside class="widget col-sm-6 col-md-3">
+    {% endblock%}
+<h3 class="widget-title ribbon {% if ribbon is defined %} {{ ribbon  }} {% else %}ribbon-focus {%endif%}"><span>{{title}}</span></h3>
+   {% block content %}
+    <div class="tagcloud">
+    {% for tag in entities%}
+    <a  href="{{ path(routeName, {'slug': tag.slug }) }}" alt="{{tag.name}}">
+        {{ tag.name}}
+        </a>
+    {%endfor%}
+    </div>
+    {% endblock %}
+
+</aside><!--/.widget-->

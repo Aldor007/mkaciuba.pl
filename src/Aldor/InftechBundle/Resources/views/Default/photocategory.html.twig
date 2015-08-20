@@ -1,0 +1,13 @@
+{% extends 'AldorInftechBundle:Default:tags.html.twig' %}
+
+ {% block content %}
+<ul class="entries coverageList aligncenter">
+    {% for cat in entities%}
+    <li><a href="{{path(routeName, {'galleryslug': 'fotografie', 'photocategoryslug': cat.slug})}}">{{cat.name}}</a></li>
+
+
+    {%endfor%}
+    </ul> 
+ 
+ 
+ {% endblock %}

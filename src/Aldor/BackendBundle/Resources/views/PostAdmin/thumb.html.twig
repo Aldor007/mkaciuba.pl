@@ -1,0 +1,12 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field%}
+
+{% if object.media is defined %}
+   {% thumbnail object.media, 'small' %} {# render the related thumbnail #}
+      {% endif %}
+{% if object.image is defined %}
+   {% thumbnail object.image , 'small' %} {# render the related thumbnail #}
+      {% endif %}
+
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'AldorBlogBundle:Blog:post.html.twig'%}
+{% block head_script%}
+{% endblock head_script%}
+{% block seo_data%}
+{% endblock seo_data%}
+{% block breadcrumb %}
+<ol class="breadcrumb ribbon-inner">
+    <li><a href="{{ path('page_slug', {'path': '/'}) }}" >Home</a></li>
+</ol>
+{% endblock breadcrumb%}
+{% block row%}
+     <header class="page-header col-md-10 col-md-offset-1">
+                        
+
+        <h2 class="page-title full-page-title">
+            Szukaj
+        </h2>
+        {{ render(controller('AldorInftechBundle:Search:createForm', {'value': search })) }}
+        <h3> Znaleziono {{resultCount }} dla "{{search}}" </h3>
+
+    </header>
+                    <div class="entries style-single style-single-full type-post col-md-10 col-md-offset-1">
+                        <ul class="nav nav-tabs" id="myTab">
+                            <li  class="active"><a data-toggle="tab" href="#posts">Posty({{posts|length}})</a></li>
+                            <li><a data-toggle="tab" href="#projects">Projekty({{projects|length}})</a></li>
+                            <li><a data-toggle="tab" href="#photocat">Kategorie fotografii({{photoCategories|length}})</a></li>
+                            <li><a data-toggle="tab" href="#photos">Fotografie({{photos|length}})</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="posts">
+                                {% for post in posts %}
+                                <article class="entry ">
+
+                                        {% if post.media %}
+                                        <figure class="entry-thumbnail hidden-xs">
+
+                                              <a href="{{ path('blog_post', {  'year': post.date | date("Y"), 'month': post.date | date("m"),  'title': post.titleslug}) }}" class="more-link">
+                                                {% set img_url = media_relative_url(post.media, 'reference') | imagine_filter('blog_medium')  %}
+                                                <img src="{{img_url}}" data-src="{{img_url}}" data-src-retina="{{img_url}}"  alt="{{post.title}}">
+                                                <noscript>
+                                                    <img src="{{img_url}}" alt="{{post.title}}">
+                                                </noscript>
+                                             </a>
+                                        
+                                        </figure>
+                                        {% endif %}
+
+
+                                            <header class="entry-header">
+                                                <h3 class="entry-title">
+                                                    <a href="{{ path('blog_post', {  'year': post.date | date('Y'), 'month': post.date | date('m'), 'title': post.titleslug}) }}">
+                                                    {{ post.title }}</a>
+                                                </h3>
+
+                                                <div class="entry-meta">
+                                                    <span class="entry-date"> <time datetime="{{ post.date | date(dateFormat) }} ">{{ post.date | format_date(null, 'pl', 'Europe/Warsaw')}}</time></span>
+                                                    <span class="category">w <a href="{{ path('blog_category', { 'slug': post.category.slug}) }}"> {{ post.category.name}} </a></span>
+                                                </div>
+
+                                            </header>
+
+                                                {{ post.description | raw}}
+                                                <a href="{{ path('blog_post', {  'year': post.date | date('Y'), 'month': post.date | date('m'), 'title': post.titleslug}) }}" class="more-link">
+                                                Czytaj więcej
+                                                <i class="icon icon-long-arrow-right"></i></a>
+
+
+                                    </article>
+                                    {% else %}
+                                        Brak postów.
+                                    {% endfor %}
+                        {{ knp_pagination_render(posts) }}
+                            </div>
+                            <div class="tab-pane" id="projects">
+
+
+                    {% for project in projects %}
+                        <article class="entry style-media media type-post">
+
+
+                            <figure class="media-object pull-left entry-thumbnail hidden-xs">
+
+                                <a href="{{ path('portfolio_project', {'slug': project.slug}) }}" class="more-link">
+                                    <img src="{% path project.media, 'small' %}" data-src="{% path project.media, 'small'  %}" data-src-retina="{% path project.media, 'small' %}" width="230" height="230" alt="{{project.name }}">
+                                    {% media project.media, 'small'%}
+                                    <noscript>
+                                        <img src="{% path project.media, 'small'  %}" alt="{{project.name}}">
+                                    </noscript>
+                                 </a>
+                            
+                            </figure>
+
+                            <div class="media-body">
+                                <header class="entry-header">
+                                    <h3 class="entry-title">
+                                    <a href="{{ path('portfolio_project', {'slug': project.slug}) }}" class="more-link">
+                                        {{ project.name}}</a>
+                                    </h3>
+
+                                    <div class="entry-meta">
+                                        <span class="author">Aldor</span>
+                                        <span class="entry-date"> <time datetime="{{ project.date | date(dateFormat) }} ">{{ project.date | format_date(null, 'pl', 'Europe/Warsaw')}}</time></span>
+                                        <span class="category"> 
+                                            {% for tech in project.technologies %}
+                                                <a href="{{ path('portfolio_technology', { 'slug': tech.slug}) }}"> {{ tech.name}} </a>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+
+                                </header>
+
+                                    {{ project.description | raw}}
+                                    <a href="{{path('portfolio_project', {'slug': project.slug}) }}" class="more-link">Czytaj więcej<i class="icon icon-long-arrow-right"></i></a>
+                                </div>
+
+
+                        </article>
+                        {% else%}
+                            Brak projektów.
+                        {% endfor %}
+        {{ knp_pagination_render(projects) }}
+
+
+                            </div>
+                            <div class="tab-pane" id="photocat">
+                                <ul class="entries">
+                                {% for category in photoCategories%}
+                                    <li class="entry style-recent-list type-post">
+
+                                    <a href="{{ path('gallery_photocategory', {'photocategoryslug': category.slug, 'galleryslug': category.gallery.slug }) }}" class="entry-title">
+                                    {{ category.name }}
+                                    </a>
+                                    <li>
+                                {% else %}
+                                    <p>Brak</p>
+                                {%endfor%}
+                                
+                                </ul>
+                            </div>
+                            <div class="tab-pane" id="photos">
+                                {% for photo in photos%}
+                                    <a href="{{ path('gallery_photocategory', {'photocategoryslug': photo.category.slug, 'galleryslug': photo.category.gallery.slug })}}">
+                                    {% media photo.image, 'small'%}
+                                    </a>
+                                {% else %}
+                                    <p>Brak</p>
+                                {%endfor%}
+                                
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+{%endblock row%}
+

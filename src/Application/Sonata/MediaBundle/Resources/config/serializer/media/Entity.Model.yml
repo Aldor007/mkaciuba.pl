@@ -1,0 +1,12 @@
+Application\Sonata\MediaBundle\Model\Media:
+    exclusion_policy: None
+    properties:
+        name:
+            expose: true
+            groups: [list, details]
+            type: string
+
+        description:
+            expose: true
+            groups: [details]
+            type: string

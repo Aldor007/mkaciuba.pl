@@ -1,0 +1,154 @@
+Sonata\MediaBundle\Model\Media:
+    exclusion_policy: none
+    discriminator:
+        field_name: type
+        map:
+            media: Application\Sonata\MediaBundle\Entity\Media
+    properties: 
+        id:
+            expose:  true
+            groups:  [list, details, api]
+            type: integer
+
+        name:
+            expose:  true
+            groups:  [list, details, api]
+            type: string
+
+        description:
+            expose:  true
+            groups:  [details]
+            type: string
+
+        enabled:
+            expose:  true
+            groups:  [details]
+            type: boolean
+
+        providerName: 
+            expose:  true
+            groups:  [list, details]
+            type: string
+
+        providerStatus:
+            expose:  true
+            groups:  [list, details]
+            name: providerStatus:
+            type: integer
+
+
+
+        providerReference:
+            expose:  true
+            groups:  [list, details]
+            type: string
+
+
+
+        providerMetadata:
+            expose:  true
+            groups:  [list, details]
+            type: array
+
+
+
+        width:
+            expose:  true
+            groups:  [list, details]
+            type: integer
+
+
+
+        height:
+            expose:  true
+            groups:  [list, details]
+            type: integer
+
+
+
+        length:
+            expose:  true
+            groups:  [list, details]
+            type: integer
+
+
+
+        copyright:
+            expose:  false
+            groups:  [list, details]
+            type: string
+
+
+
+        authorName:
+            expose:  false
+            groups:  [list, details]
+            type: string
+
+
+
+        context:
+            expose:  true
+            groups:  [list, details]
+            type: string
+
+
+
+        cdnIsFlushable:
+            expose:  false
+            groups:  [list, details]
+            type: boolean
+
+
+
+        cdnFlushAt:
+            expose:  false
+            groups:  [list, details]
+            type: DateTime
+
+
+
+        cdnStatus:
+            expose:  false
+            groups:  [list, details]
+            type: integer
+
+
+
+        updatedAt:
+            expose:  false
+            groups:  [list, details]
+            type: DateTime
+
+
+
+        createdAt:
+            expose:  true
+            groups:  [list, details]
+            type: DateTime
+
+        # binaryContent:
+        #     expose:  false
+        #     groups:  [list, details]
+        #     type: string
+
+        previousProviderReference:
+            expose:  false
+            groups:  [list, details]
+            type: array
+        
+        contentType:
+            expose:  true
+            groups:  [list, details]
+            type: string
+            serialized_name: contenttype
+            # accessor:
+            #     getter: getContentType
+        size:
+            expose:  true
+            groups:  [list, details]
+            type: integer
+
+        galleryHasMedias:
+            expose:  false
+            groups:  [list, details]

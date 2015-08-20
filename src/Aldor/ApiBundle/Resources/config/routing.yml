@@ -1,0 +1,3 @@
+aldor_api_photo:
+    type:     rest
+    resource: Aldor\ApiBundle\Controller\PhotoController

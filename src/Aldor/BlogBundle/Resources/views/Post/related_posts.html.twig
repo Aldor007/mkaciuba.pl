@@ -1,0 +1,38 @@
+<aside class="widget">
+    <h4 class="widget-title">Powiązane posty
+    
+{% if posts| length == 0%}
+    Brak
+    </h4>
+{% else %}
+    </h4>
+
+    <div class="entries row">
+        {% for post in posts %}
+        <article class="entry type-post style-thumbnail col-xs-3 col-sm-3">
+
+            <a href="{{ path('blog_post', {  'year': post.date | date("Y"), 'month': post.date | date("m"),  'title': post.titleslug}) }}">
+                <figure class="entry-thumbnail">
+                  
+                {% set img_url = media_public_url(post.media, 'medium')   %}
+            {% include "AldorInftechBundle::image.html.twig" with {
+                "img_url": img_url,
+                "alt": post.title,
+                "width": "230",
+                "height": "230",
+
+            }
+            %} 
+                </a>
+            <h3 class="entry-title">
+            <a href="{{ path('blog_post', {  'year': post.date | date("Y"), 'month': post.date | date("m"),  'title': post.titleslug}) }}">
+            {{ post.title}}.</a> </h3>
+
+                
+        </article>
+
+        {% endfor %}
+    </div>
+    {% endif%}
+</aside>
+

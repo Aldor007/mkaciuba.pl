@@ -1,0 +1,18 @@
+portfolio_rss:
+    pattern: /rss
+    defaults: { _controller: AldorPortfolioBundle:Project:feed }
+
+portfolio_home:
+    pattern: /{page}
+    defaults: { _controller: AldorPortfolioBundle:Project:index, page: 1 }
+    requirements:
+        page: \d+
+
+
+portfolio_project:
+    pattern: /{slug}
+    defaults: { _controller: AldorPortfolioBundle:Project:show }
+
+portfolio_technology:
+    pattern: /tech/{slug}/{page}
+    defaults: { _controller: AldorPortfolioBundle:Technology:index, page: 1 }

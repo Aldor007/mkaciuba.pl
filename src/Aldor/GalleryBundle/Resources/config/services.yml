@@ -1,0 +1,38 @@
+#parameters:
+#    aldor_gallery.example.class: Aldor\GalleryBundle\Example
+services:
+    aldor.gallery.admin.photocategory:
+        class: Aldor\BackendBundle\Admin\PhotoCategoryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: gallery, label: PhotoCategories }
+        arguments: [null,Aldor\GalleryBundle\Entity\PhotoCategory, AldorBackendBundle:PhotoCategoryAdmin]
+
+    aldor.gallery.admin.photo:
+        class: Aldor\BackendBundle\Admin\PhotoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: gallery, label: Photos }
+        arguments: [null, Aldor\GalleryBundle\Entity\Photo, AldorBackendBundle:PhotoAdmin, '@sonata.media.pool']
+
+    aldor.gallery.admin.gallery:
+        class: Aldor\BackendBundle\Admin\GalleryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: gallery, label: Gallery }
+        arguments: [null, Aldor\GalleryBundle\Entity\Gallery, AldorBackendBundle:GalleryAdmin]
+
+    aldor.gallery.twig.extension:
+        class: Aldor\GalleryBundle\Twig\GalleryExtension
+        tags:
+            - { name: twig.extension }
+        arguments:
+            entityManager: '@doctrine.orm.entity_manager'
+
+    aldor.gallery.formatter.twig:
+        class: Aldor\GalleryBundle\Twig\FormatterGalleryExtension
+        arguments:
+            - '@aldor.gallery.twig.extension'
+    aldor.gallery.serializer.listener:
+        class: Aldor\GalleryBundle\Listener\SerializationListener
+        scope: request
+        arguments: ['@service_container']
+        tags:
+            - { name: jms_serializer.event_listener, class: Aldor\GalleryBundle\Entity\Photo, direction: serialization, event: serializer.post_serialize}

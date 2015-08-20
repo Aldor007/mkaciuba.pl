@@ -1,0 +1,45 @@
+<h1 class="sr-only">mkaciuba.pl</h1>
+        <nav id="header" class="header-navbar fixed" role="navigation">
+
+            <div class="{% block header_navbar_inner %}header-navbar-inner container {% endblock %}">
+                <div id="brand" class="navbar-brand">
+                    <a href="/" rel="bookmark">
+                            {% image '@AldorInftechBundle/Resources/assetic/images/logo.png' %}
+                                <img src="{{ asset_url }}" data-src="{{ asset_url }}" data-src-retina="{{ asset_url }}" width="244" height="56" alt="mkaciuba.pl">
+                                <noscript>
+                                    <img src="{{ asset_url }}" alt="mkaciuba.pl">
+                                </noscript>
+                            {% endimage %}
+
+                    </a>
+                </div>
+                    <ul class="nav nav-icons">
+                        <li>
+                            <a href="#" class="btn-icon" data-toggle=".header-navbar-inner" data-toggle-class="search-toggled-in">
+                                <span class="search-toggled-out-icon glyphicon glyphicon-search"></span>
+                                <span class="search-toggled-in-icon glyphicon glyphicon-remove"></span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    {% cache 'v2/searchForm' 1000 %}
+                    <div class="search-wrapper js-stoppropagation">
+                        <div class="search-wrapper-inner">
+                            {{ render(controller('AldorInftechBundle:Search:createForm')) }}
+                        </div>
+                    </div>
+                    {% endcache  %}
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="glyphicon glyphicon-align-justify" style="color:#fff"></span>
+            </button>
+        </div>
+                                            <div class="collapse navbar-collapse navbar-responsive-collapse">
+                    {% block knp_menu %}
+                
+                    {{ knp_menu_render('AldorInftechBundle:Builder:mainMenu', {'currentClass': 'active'})}}
+                    {% endblock %}
+                    </div>
+                </div>
+        </nav>
+            

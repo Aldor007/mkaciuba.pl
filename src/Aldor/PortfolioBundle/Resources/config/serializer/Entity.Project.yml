@@ -1,0 +1,52 @@
+#src/Aldor/InftechBundle/Resources/config/doctrine/Post.orm.yml
+Aldor\PortfolioBundle\Entity\Project:
+    exclusion_policy: none
+    properties:
+        id:
+            type: integer
+            expose:  true
+            groups:  [list, details]
+        date:
+            type: DateTime
+            expose:  true
+            groups:  [list, details]
+        modified:
+            type: DateTime
+            expose:  true
+            groups:  [list, details]
+        url:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        slug:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        content:
+            type: string
+            expose:  true
+            groups:  [ details]
+        description:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        name:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        keywords:
+            type: string
+            expose:  true
+            groups:  [details]
+        description:
+            type: string
+            expose:  true
+            groups:  [details]
+        media:
+            type: Application\Sonata\MediaBundle\Entity\Media
+            expose:  true
+            groups:  [list, details]
+        technologies:
+            type: ArrayCollection<Aldor\PortfolioBundle\Entity\Technology>
+            expose:  true
+            groups:  [list, details]

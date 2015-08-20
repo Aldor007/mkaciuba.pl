@@ -1,0 +1,20 @@
+{% extends 'knp_menu.html.twig' %}
+
+{% block list %}
+{% if item.hasChildren and options.depth is not sameas(0) and item.displayChildren %}
+{% import "knp_menu.html.twig" as knp_menu %}
+    <ul{{ knp_menu.attributes(listAttributes) }}>
+        {{ block('children') }}
+    </ul>
+{% endif %}
+{% endblock %}
+{% block dropdownElement %}
+    {%- set classes = item.linkAttribute('class') is not empty ? [item.linkAttribute('class')] : [] %}
+    {%- set classes = classes|merge(['dropdown-toggle']) %}
+    {%- set attributes = item.linkAttributes %}
+    {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
+    {%- set attributes = attributes|merge({'data-toggle': 'li'}) %}
+    <a href="#"{{ macros.attributes(attributes) }}>{{ block('label') }} <b class="caret"></b></a>
+{% endblock %}
+
+{% block label %}{{ item.label|trans }}{% endblock %}

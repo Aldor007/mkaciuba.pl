@@ -1,0 +1,56 @@
+#src/Aldor/InftechBundle/Resources/config/doctrine/Post.orm.yml
+Aldor\InftechBundle\Entity\Entry:
+    exclusion_policy: none
+    properties:
+        id:
+            type: integer
+            expose:  true
+            groups:  [list, details]
+        date:
+            type: DateTime
+            expose:  true
+            groups:  [list, details]
+        url:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        dateslug:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        titleslug:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        content:
+            type: string
+            expose:  true
+            groups:  [ details]
+        description:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        title:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        status:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        comment_status:
+            type: string
+            expose:  true
+            groups:  [details]
+        modified:
+            type: DateTime
+            expose:  true
+            groups:  [list, details]
+        comment_count:
+            type: integer
+            expose:  true
+            groups:  [list, details]
+        public:
+            type: boolean
+            expose:  true
+            groups:  [list, details]

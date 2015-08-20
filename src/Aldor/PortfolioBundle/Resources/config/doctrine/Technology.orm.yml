@@ -1,0 +1,34 @@
+#src/Aldor/PortfolioBundle/Resources/config/doctrine/Technology.orm.yml
+Aldor\PortfolioBundle\Entity\Technology:
+ type: entity
+ repositoryClass: Aldor\PortfolioBundle\Repository\TechnologyRepository
+ table: technology
+ indexes:
+   id_index:
+     columns: [ id ]
+   slug_index:
+     columns: [ slug ]
+ id:
+   id:
+    type: integer
+    generator: { strategy: AUTO }
+ fields:
+      name:
+        type: string
+        length: 100
+        unique: true
+      slug:
+        type: string
+        length: 100
+ manyToMany:
+        projects:
+            targetEntity: Project
+            mappedBy: technologies
+ lifecycleCallbacks:
+        prePersist: [ prePersist ]
+        preUpdate: [ preUpdate ]
+
+
+
+
+

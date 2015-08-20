@@ -1,0 +1,116 @@
+<?php
+
+namespace Aldor\BlogBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Aldor\BlogBundle\Entity\PostMeta
+ */
+class PostMeta
+{
+    /**
+     * @var integer $id
+     */
+    private $id;
+
+    /**
+     * @var string $key
+     */
+
+    /**
+     * @var string $value
+     */
+    private $value;
+
+    /**
+     * @var Aldor\BlogBundle\Entity\Post
+     */
+    private $post;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * Set value
+     *
+     * @param string $value
+     * @return PostMeta
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set post
+     *
+     * @param Aldor\BlogBundle\Entity\Post $post
+     * @return PostMeta
+     */
+    public function setPost(\Aldor\BlogBundle\Entity\Post $post = null)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return Aldor\BlogBundle\Entity\Post
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+    /**
+     * @var string
+     */
+    private $name;
+
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return PostMeta
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+}

@@ -1,0 +1,109 @@
+<!-- footer --->
+        {% if page is defined  %}
+            {{ sonata_page_render_container('footer', page) }}
+        {% endif %}
+        {% block footer_area %}
+        <footer id="footer" class="footer-area">
+                {% block footer_top_tag %}
+                    <div class="footer-top container">
+                {% endblock footer_top_tag %}
+                <div class="row">
+
+                    {% block footer_left%}
+                        <div class="widget col-xs-12 col-sm-4">
+                            {% set blockData = '' %}
+                            {% if page is defined %}
+                            {% set blockData =  sonata_page_render_container('footer_left', page) %}
+                            {% endif%}
+                        {% if blockData|trim|length > 0 %}
+                            {{ blockData | raw }}
+                        {% else %}
+                            {{ sonata_block_render({ 'type': 'aldor.block.service.categories' }, {
+                                'title': 'Kategorie',
+                                 'template': 'AldorInftechBundle:Block:footer_categories.html.twig'
+                            }) }}
+                        {% endif %}
+
+                        </div><!--/.col-3-->
+                    {% endblock footer_left%}
+                    {% block footer_center%}
+
+                    <div class="clearfix visible-xs"></div>
+
+                    <div class="widget col-xs-6 col-sm-2">
+
+                        <h4 class="widget-title">Informacje</h4>
+
+                        <ul class="entries links links">
+                            <li><a href="{{ path('_page_alias_about') }}">O mnie</a></li>
+                            <li><a href="{{ path('_page_alias_contact') }}">Kontakt</a></li>
+                            <li><a href="{{ path('_page_alias_cookies')}}">Polityka cookies</a></li>
+                        </ul>
+
+                    </div><!--/.col-3-->
+
+                    <div class="widget col-xs-6 col-sm-2">
+
+                        <h4 class="widget-title">Znajdziesz mnie</h4>
+
+                        <ul class="entries links">
+                            <li><a href="https://plus.google.com/u/0/116373800913673712146"><i class="icon-google-plus-sign icon-2x"></i> Google Plus</a></li>
+                            <li><a href="https://www.linkedin.com/pub/marcin-kaciuba/ab/743/134"><i class="icon-linkedin-sign icon-2x"></i> Linkedin</a></li>
+                            <li><a href="https://github.com/aldor007"><i class="icon-github-sign icon-2x"></i> Github</a></li>
+                            <li><a href="https://500px.com/aldor007"><i class="icon-500px icon-2x"></i> 500px</a></li>
+                        </ul>
+
+                    </div><!--/.col-3-->
+
+                    <div class="clearfix visible-xs"></div>
+                    {% endblock footer_center%}
+                    {% block footer_right%}
+
+                    {% if page is defined %}
+                        {% set blockData =  sonata_page_render_container('footer_right', page) %}
+                        {% if blockData|trim|length > 0 %}
+                            {{ blockData | raw }}
+                        {% else %}
+                        {{ sonata_block_render({ 'type': 'sonata.block.service.template'}, {
+                                 'template': 'AldorInftechBundle::rss.html.twig'
+                            }) }}
+                        {% endif %}
+                    {% else %}
+                    {{ sonata_block_render({ 'type': 'sonata.block.service.template'}, {
+                             'template': 'AldorInftechBundle::rss.html.twig'
+                        }) }}
+                    {% endif %}
+
+                    {% endblock footer_right%}
+
+
+                </div><!--row.-->
+
+            </div>
+
+            <div class="footer-bottom">
+
+            {% block footer_bottom_tag %}
+                <div class="container aligncenter">
+            {% endblock footer_bottom_tag  %}
+
+                    <p>&copy;2015 Marcin Kaciuba<p>
+
+                </div>
+
+            </div>
+
+        </footer>
+        {% endblock footer_area %}
+    {% block foot_script_jquery%}
+    {% endblock foot_script_jquery %}
+
+    {% block foot_script_assetic %}
+    {% endblock foot_script_assetic %}
+{% block foot_script %}
+ 
+{% endblock foot_script %}
+
+       
+</body>
+</html>

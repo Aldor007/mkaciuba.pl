@@ -1,0 +1,68 @@
+#src/Aldor/GalleryBundle/Resources/config/doctrine/PhotoCategory.orm.yml
+Aldor\GalleryBundle\Entity\PhotoCategory:
+    type: entity
+    repositoryClass: Aldor\GalleryBundle\Repository\PhotoCategoryRepository
+    table: photoscategory
+    indexes:
+        id_index:
+            columns: [ id ]
+        slug_index:
+            columns: [ slug ]
+    id:
+       id:
+           type: integer
+           generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 40
+            unique: true
+        slug:
+            type: string
+            length: 60
+        keywords:
+            type: string
+            length: 100
+            nullable: yes
+        description:
+            type: string
+            length: 255
+            nullable: yes
+    manyToMany:
+        photos:
+            targetEntity: Photo
+            mappedBy: categories
+            cascade: ['all']
+            orphanRemoval: yes
+
+    manyToOne:
+        gallery:
+            targetEntity: Gallery
+            inversedBy: categories
+            cascade: ['persist']
+            nullable: no
+            joinColumn:
+                name: galleryid
+                referencedColumnName: id
+                nullable: no
+        image:
+            targetEntity: Application\Sonata\MediaBundle\Entity\Media
+            cascade: ['all']
+            joinColumn:
+                name: photoid
+                referencedColumnName: id
+                nullable: no
+                cascade: ['persist', 'remove']
+    oneToOne:
+        zip:
+            targetEntity: Application\Sonata\MediaBundle\Entity\Media
+            cascade: ['all']
+            joinColumn:
+                name: fileoid
+                referencedColumnName: id
+                nullable: yes
+                cascade: ['persist', 'remove']
+    lifecycleCallbacks:
+            prePersist: [ prePersist ]
+            preUpdate: [ preUpdate]
+

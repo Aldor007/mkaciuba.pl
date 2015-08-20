@@ -1,0 +1,10 @@
+gallery_photocategory:
+    pattern: /{galleryslug}/{photocategoryslug}
+    defaults: { _controller: AldorGalleryBundle:PhotoCategory:index }
+gallery_show:
+    pattern: /{slug}
+    defaults: { _controller: AldorGalleryBundle:Gallery:index,slug: fotografie  }
+#aldor_inftech:
+ #   resource: "@AldorGalleryBundle/Resources/config/routing/post.yml"
+ #   prefix:   /
+

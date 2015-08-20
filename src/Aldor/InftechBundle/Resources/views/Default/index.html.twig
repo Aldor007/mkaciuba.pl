@@ -1,0 +1,91 @@
+{% extends "ApplicationSonataPageBundle::home_layout.html.twig" %}
+
+{% block container %}
+    <div id="main" class="container">
+    <div class="section row entries bg-primary section-no-margin-bottom">
+    {{ sonata_block_render({ 'type': 'aldor.block.service.recentposts' }, {
+        'title': 'Ostatnie posty',
+        'template': 'AldorInftechBundle:Block:recent_posts.html.twig',
+        'max': 5
+
+        }) 
+    }}
+                    
+</div>
+            <div id="coverageCarousel" class="section bg-primary carousel carousel slide">
+
+                <h2 class="section-title ribbon ribbon-focus"><span></span></h2>
+                <div class="carousel-inner">
+                    {{ sonata_block_render({ 'type': 'aldor.block.service.recentphoto' }, {
+                        'title': 'Ostatnie fotografie',
+                        'gallery': 'fotografie',
+                        'active': true
+
+                    }) }}
+                    {{ sonata_block_render({ 'type': 'aldor.block.service.recentphoto' }, {
+                        'title': 'Ostatnie fotografie',
+                        'gallery': 'blog'
+
+                    }) }}
+
+                </div><!--/.carousel-inner-->
+
+                <a class="left carousel-control" href="#coverageCarousel" data-slide="prev">
+                    <span class="icon icon-angle-left"></span>
+                </a>
+                <a class="right carousel-control" href="#coverageCarousel" data-slide="next">
+                    <span class="icon icon-angle-right"></span>
+                </a>
+
+            </div><!--/.carousel-->
+            <div id="content" class="section content bg-base">
+                    {{ sonata_block_render({ 'type': 'aldor.block.service.recentprojects' }, {
+                        'title': 'Ostatnie projekty',
+
+                    }) }}
+            
+            </div>
+
+            <div class="section sidebar row">
+
+                <aside class="widget col-sm-6 col-md-3">
+
+                    <h3 class="widget-title ribbon"><span>Ostatnie dyskusje</span></h3>
+<script type="text/javascript" src="//mkaciuba.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=40&excerpt_length=50"></script>
+
+                </aside><!--/.widget-->
+
+                    {{ sonata_block_render({ 'type': 'aldor.block.service.tags' }, {
+                        'title': 'Technologie',
+                         'template': 'AldorInftechBundle:Default:tags.html.twig',
+                         'routeName': 'portfolio_technology',
+                          'entity': 'AldorPortfolioBundle:Technology',
+                                'ribbon': 'ribbon-focus'
+
+                    }) }}
+                    {{ sonata_block_render({ 'type': 'aldor.block.service.categories' }, {
+                        'title': 'Kategorie Zdjęć',
+                         'template': 'AldorInftechBundle:Default:photocategory.html.twig',
+                         'routeName': 'gallery_photocategory',
+                         'entity': 'AldorGalleryBundle:PhotoCategory',
+                         'ribbon': 'ribbon',
+                         'params': { 'gallery': 'fotografie'}
+
+
+                    }) }}
+
+
+
+                            {{ sonata_block_render({ 'type': 'aldor.block.service.tags' }, {
+                                'title': 'Tagi',
+                                 'template': 'AldorInftechBundle:Default:tags.html.twig',
+                                'ribbon': 'ribbon-focus'
+                            }) }}
+                    
+            </div>
+
+
+
+
+    </div>
+ {% endblock %}

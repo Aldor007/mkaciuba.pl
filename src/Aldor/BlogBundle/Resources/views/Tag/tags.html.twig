@@ -1,0 +1,17 @@
+{% embed 'AldorInftechBundle::sidebar.html.twig'  %}
+    {% block siedebar_title%}Tagi{% endblock%}
+    {%block siedebar_content %}
+    <div class="tagcloud">
+    {% for tag in entities%}
+    <a class="blog-tag" style="font-size:  {{ 2 *  tag.count }} em" href="{{ path('blog_tag', {'slug': tag.slug }) }}">
+        {{ tag.name}}
+        </a>
+    {%endfor%}
+
+        </div>
+    {% endblock%}
+{% endembed %}
+
+
+
+

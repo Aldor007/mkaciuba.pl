@@ -1,0 +1,41 @@
+<h2 class="section-title ribbon ribbon-focus"><a href="{{ path('portfolio_home') }}"> {{ title}}</a></h2>
+
+<div class="row entries">
+    {% for entry in entities %}
+    <article class="entry style-grid type-post col-md-6 col-lg-3 colheight-sm-1">
+        
+        <header class="entry-header">
+            <p class="small">
+            {% for tech in entry.technologies %}
+            <a href="{{ path('portfolio_technology', {'slug': tech.slug })}}">{{ tech.name  }}</a>
+            {% endfor %}
+            
+            </p>
+            <h3 class="entry-title"><a href="{{ path('portfolio_project', {'slug': entry.slug }) }}">{{ entry.name}}</a> </h3>
+          
+            <div class="entry-meta">
+            <h4><a href="{{ path('portfolio_project', {'slug': entry.slug }) }}"> {{entry.rawdescription|slice(0, 58)}} {% if entry.rawdescription|length > 58 %}...{% endif %} </a>
+            </h4>
+                <span class="entry-date"><a href="{{ path('portfolio_project', {'slug': entry.slug }) }}"><time datetime="{{entry.date|date(dateFormat)}}">{{ entry.date | time_ago_in_words(false, true) | trans }}</time></a></span>
+            </div>
+        </header>
+        
+        <figure class="entry-thumbnail">
+
+            <a href="{{  path('portfolio_project', {'slug': entry.slug }) }}" class="overlay overlay-primary"></a>
+
+            {% set img_url = media_public_url(entry.media, imageSize)   %}
+            {% include "AldorInftechBundle::image.html.twig" with {
+                "img_url": img_url,
+                "alt": entry.name,
+                "width": "480",
+                "height": "280"
+            }
+            %}
+
+        </figure>
+
+    </article>
+    {% endfor %}
+
+</div><!--/.row.entries-->

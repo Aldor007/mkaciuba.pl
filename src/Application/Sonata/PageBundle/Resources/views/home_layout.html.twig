@@ -1,0 +1,57 @@
+{% block sonata_page_html_tag %}
+{% embed 'ApplicationSonataPageBundle::header.html.twig' %}
+                {% block head_stylesheets%}
+                    {% stylesheets
+                       '@AldorInftechBundle/Resources/assetic/less/base.less'
+                       '@AldorInftechBundle/Resources/assetic/less/components.less'
+                       '@AldorInftechBundle/Resources/assetic/less/light.less'
+                        output='css/mkaciuba.home.header.min.css' filter='uglifycss'
+                    %}
+                        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+                    {% endstylesheets %}
+                 {% endblock head_stylesheets %}
+{% endembed%}
+<script type="application/ld+json">
+{
+   "@context": "http://schema.org",
+   "@type": "WebSite",
+   "url": "https://mkaciuba.pl",
+   "potentialAction": {
+     "@type": "SearchAction",
+     "target": "https://mkaciuba.pl/szukaj?search={search_term_string}",
+     "query-input": "required name=search_term_string"
+   }
+}
+</script>
+
+    {% endblock%}
+
+
+{% block sonata_page_container %}
+
+    {% block menu %}
+        {% embed 'AldorInftechBundle::menu.html.twig'  %}
+        {% endembed %}
+    {% endblock %}
+
+{% block container %}
+    {% block page_content %}
+        {% if content is defined %}
+            {{ content|raw }}
+        {% else %}
+            {% set content = block('content') %}
+            {% if content|length > 0 %}
+                {{ content|raw }}
+            {% elseif page is defined %}
+                {{ sonata_page_render_container('content', page) }}
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+{% endblock %}
+{% block body_end %}
+{% endblock body_end %}
+
+{% endblock sonata_page_container %}
+
+
+{% include 'ApplicationSonataPageBundle::footer.html.twig'%}

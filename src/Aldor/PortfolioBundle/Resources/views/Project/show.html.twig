@@ -1,0 +1,84 @@
+{% extends "AldorBlogBundle:Blog:post.html.twig" %}
+{% block content %}
+
+                    <div class="ribbon ribbon-highlight">
+                        <ol class="breadcrumb ribbon-inner">
+                            <li><a href="{{ path('page_slug', {'path': '/'}) }}" >Home</a></li>
+                            <li><a href="{{ path('portfolio_home')}}">Projekty</a></li>
+                            <li class="active" title="{{project.name}}">{{  project.name}}.</li>
+                        </ol>
+                    </div>
+                    <div class="row">
+                    <header class="page-header col-md-10 col-md-offset-1">
+                        
+
+                        <h2 class="page-title full-page-title">
+                            {{ project.name}}
+                        </h2>
+
+                    </header>
+
+                    <article class="entry style-single style-single-full type-project col-md-10 col-md-offset-1">
+                        
+                        {% if project.fullPhotoSize != 'none' %}
+                        <figure class="entry-thumbnail">
+
+                                {% set img_url = media_relative_url(project.media, project.fullPhotoSize)  %}
+                                {% media project.media, project.fullPhotoSize with {'data-src':img_url , 'data-src-retina': img_url}%}
+                            <noscript>
+                                <img src="{% path project.media, 'big'  %}" alt="{{project.name}}">
+                            </noscript>
+
+                        </figure>
+                        {% endif %}
+                        <div class="entry-meta">
+                            <span class="author">przez Aldor </span>
+                                        <span class="entry-date"> <time datetime="{{ project.date | date(dateFormat) }} ">{{ project.date | date | format_date(null, 'pl', 'Europe/Warsaw') }}</time></span>
+                            <span class="category">
+                                            {% for tech in project.technologies %}
+                                                <a href="{{ path('portfolio_technology', { 'slug': tech.slug}) }}"> {{ tech.name}} </a>
+                                            {% endfor %}
+                            </span>
+                        </div>
+
+                        <div class="entry-content">
+
+                            <p class="lead">
+                                {{ project.description|raw }}
+                            </p>
+                            {{ project.content|raw }}
+
+                        </div>
+                    </article>
+                    <div class="col-md-10 col-md-offset-1">
+
+                    <div class="after-entry">
+
+
+                        <hr>
+
+                        <aside class="widget">
+                            Share:
+                            <a href="#" class="" onclick="window.open(
+                                'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 
+                                'facebook-share-dialog', 
+                                'width=626,height=436'); 
+                                return false;"><span class="icon-stack"><i class="icon-sign-blank icon-stack-base"></i><i class="icon-facebook icon-light"></i></span></a>
+                            <a href="#" class="" onclick="window.open(
+                                'http://twitter.com/home?status='+encodeURIComponent(location.href), 
+                                'facebook-share-dialog', 
+                                'width=626,height=436'); 
+                                return false;"><span class="icon-stack"><i class="icon-sign-blank icon-stack-base"></i><i class="icon-twitter icon-light"></i></span></a>
+                            <a href="#" class="" onclick="window.open(
+                                'https://plus.google.com/share?url='+encodeURIComponent(location.href), 
+                                'facebook-share-dialog', 
+                                'width=500,height=436'); 
+                                return false;"><span class="icon-stack"><i class="icon-sign-blank icon-stack-base"></i><i class="icon-google-plus icon-light"></i></span></a>
+                            <a href="#" class="" onclick="javascript:void((function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)})());"><span class="icon-stack"><i class="icon-sign-blank icon-stack-base"></i><i class="icon-pinterest icon-light"></i></span></a>
+                        </aside> 
+
+                    </div>
+                    
+                        </div>
+                </div><!--/.col-md-8.col-lg-8.col-xl-9-->
+{% endblock content %}

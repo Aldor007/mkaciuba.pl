@@ -1,0 +1,92 @@
+parameters:
+#    aldor_inftech.example.class: Aldor\InftechBundle\Example
+services:
+    aldor.inftech.cachemanager:
+        class: Aldor\InftechBundle\Cache\CacheManager
+        arguments: ['@service_container']
+        calls:
+            - [setRequest, [@request_stack]]
+
+    aldor.twig.inftech_extension:
+        class: Aldor\InftechBundle\Twig\AldorExtension
+        arguments: ['@service_container']
+        tags:
+            - { name: twig.extension }
+
+    asm89.twig.cache.adapter:
+        arguments:
+            - "@doctrine_cache.providers.front_cache"
+        class: Asm89\Twig\CacheExtension\CacheProvider\DoctrineCacheAdapter
+
+    asm89.twig.cache.extension:
+        arguments:
+            - "@asm89.twig.cache.strategy"
+        class: Asm89\Twig\CacheExtension\Extension
+        tags:
+            - {name: twig.extension}
+    asm89.twig.cache.strategy:
+        arguments:
+            - "@asm89.twig.cache.adapter"
+        class: Asm89\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy
+
+    salavert.twig.time_ago:
+        class: Salavert\Twig\Extension\TimeAgoExtension
+        arguments: [@translator]
+        tags:
+        - { name: twig.extension }
+
+# blocks
+
+    aldor.block.service.categories:
+        class: Aldor\InftechBundle\Block\CategoriesBlockService
+        arguments: [ "aldor.block.service.categories", @templating, @doctrine.orm.entity_manager ]
+        tags:
+            - { name: sonata.block }
+
+    aldor.block.service.tags:
+        class: Aldor\InftechBundle\Block\TagsBlockService
+        arguments: [ "aldor.block.service.tags", @templating, @doctrine.orm.entity_manager ]
+        tags:
+            - { name: sonata.block }
+
+    aldor.block.service.recentposts:
+        class: Aldor\InftechBundle\Block\RecentPostsBlockService
+        arguments: [ "aldor.block.service.recentposts", @templating, @doctrine.orm.entity_manager, @mobile_detect.mobile_detector ]
+        tags:
+            - { name: sonata.block }
+
+    aldor.block.service.recentprojects:
+        class: Aldor\InftechBundle\Block\RecentProjectsBlockService
+        arguments: [ "aldor.block.service.recentprojects", @templating, @doctrine.orm.entity_manager, @mobile_detect.mobile_detector]
+        tags:
+            - { name: sonata.block }
+
+    aldor.block.service.recentphoto:
+        class: Aldor\InftechBundle\Block\RecentPhotoBlockService
+        arguments: [ "aldor.block.service.recentphoto", @templating, @doctrine.orm.entity_manager, @mobile_detect.mobile_detector ]
+        tags:
+            - { name: sonata.block }
+
+    aldor.inftech.block.breadcrumb:
+        class: Aldor\InftechBundle\Block\BreadcrumbBlockService
+        tags:
+            - {name: sonata.block}
+            - {name: sonata.breadcrumb}
+        arguments:
+            - inftech_home
+            - aldor.inftech.block.breadcrumb
+            - @templating
+            - @knp_menu.menu_provider
+            - @knp_menu.factory
+
+    aldor.block.service.technologies:
+        class: Aldor\InftechBundle\Block\TechnologiesBlockService
+        arguments: [ "aldor.block.service.technologies", @templating, @doctrine.orm.entity_manager ]
+        tags:
+            - { name: sonata.block }
+
+    aldor.block.service.relatedposts:
+        class: Aldor\InftechBundle\Block\RelatedPostsBlockService
+        arguments: [ "aldor.block.service.relatedposts", @templating, @doctrine.orm.entity_manager ]
+        tags:
+            - { name: sonata.block }

@@ -1,0 +1,12 @@
+#parameters:
+services:
+    aldor.inftech.consumer.batchphoto:
+        class: Aldor\BackendBundle\Consumer\BatchPhotoConsumer
+        arguments: [ @logger, @doctrine.orm.entity_manager ]
+        tags:
+            - { name: "sonata.notification.consumer", type: "aldor_create_from_zip" }
+    aldor.inftech.consumer.cachepurge:
+        class: Aldor\BackendBundle\Consumer\CachePurgeConsumer
+        arguments: [ @fos_http_cache.cache_manager, @happyr.clourflare.service.cloudflare ]
+        tags:
+            - { name: "sonata.notification.consumer", type: "aldor_cache_purge" }

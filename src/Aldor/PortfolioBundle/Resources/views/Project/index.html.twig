@@ -1,0 +1,108 @@
+{% extends "AldorBlogBundle:Blog:index.html.twig" %}
+{% block content %}
+            <div id="content" class="content section row">
+
+                <div class="col-md-8 bg-base col-lg-8 col-xl-9">
+
+                    <div class="ribbon ribbon-highlight">
+                        <ol class="breadcrumb ribbon-inner">
+                            <li><a href="{{ path('page_slug', {'path': '/'}) }}" >Home</a></li>
+                            <li><a href="{{ path('portfolio_home') }}" >Projekty</a></li>
+                            {% if technology is defined %}
+                                <li class="active">{{ technology.name }}</li>
+                            {% endif %}
+
+                        </ol>
+                    </div>
+
+                    <header class="page-header">
+                        
+                        <h2 class="page-title">
+                            {% block portfolio_header %}
+                                {% if technology  is defined %}
+                                    {{ technology.name}}
+                                {% else %}
+                                    Projekty
+                                {% endif %}
+                            {% endblock portfolio_header %}
+                        </h2>
+
+                    </header>
+
+                    <div class="entries">
+
+                    {% for project in projects %}
+                        <article class="entry style-media media type-post">
+
+
+                            <figure class="media-object pull-left entry-thumbnail hidden-xs">
+
+                                <a href="{{ path('portfolio_project', {'slug': project.slug}) }}" class="more-link">
+                                  
+                                        {% set img_url = media_public_url(project.media, 'small')   %}
+                                {% include "AldorInftechBundle::image.html.twig" with {
+                                    "img_url": img_url,
+                                    "alt": project.name,
+                                    "width": "230",
+                                    "height": "230",
+                                }
+                                %} 
+                                 </a>
+                            
+                            </figure>
+
+                            <div class="media-body">
+                                <header class="entry-header">
+                                    <h3 class="entry-title">
+                                    <a href="{{ path('portfolio_project', {'slug': project.slug}) }}" class="more-link">
+                                        {{ project.name}}</a>
+                                    </h3>
+
+                                    <div class="entry-meta">
+                                        <span class="author">Aldor</span>
+                                        <span class="entry-date"> <time datetime="{{ project.date | date(dateFormat) }} ">{{ project.date | format_date(null, 'pl', 'Europe/Warsaw')}}</time></span>
+                                        <span class="category"> 
+                                            {% for tech in project.technologies %}
+                                                <a href="{{ path('portfolio_technology', { 'slug': tech.slug}) }}"> {{ tech.name}} </a>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+
+                                </header>
+
+                                    {{ project.description | raw}}
+                                    <a href="{{path('portfolio_project', {'slug': project.slug}) }}" class="more-link">Czytaj więcej<i class="icon icon-long-arrow-right"></i></a>
+                                </div>
+
+
+                        </article>
+                        {% else%}
+                            Brak projektów.
+                        {% endfor %}
+                    </div>
+        {{ knp_pagination_render(projects) }}
+                </div>
+
+{% endblock %}
+{% block sidebar %}
+                <div class="sidebar col-md-4 col-lg-4 col-xl-3">
+     
+                        {% if page is defined %}
+                            {{ sonata_page_render_container('sidebar_right_1', page) }}
+                        {% endif %}
+                
+                    {{ sonata_block_render({ 'type': 'aldor.block.service.tags' }, {
+                        'title': 'Technologie',
+                         'template': 'AldorPortfolioBundle:Technology:list.html.twig',
+                         'routeName': 'portfolio_technology',
+                          'entity': 'AldorPortfolioBundle:Technology',
+                                'ribbon': 'ribbon-focus'
+
+                    }) }}
+
+        </div><!--/.sidebar col-md-4 col-lg-4 col-xl-3-->
+    </div>
+
+{% endblock %}
+
+

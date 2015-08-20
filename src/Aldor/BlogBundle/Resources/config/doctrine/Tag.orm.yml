@@ -1,0 +1,31 @@
+#src/Aldor/InftechBundle/Resources/config/doctrine/Tag.orm.yml
+Aldor\BlogBundle\Entity\Tag:
+    type: entity
+    table: tags
+    indexes:
+        id_index:
+            columns: [ id ]
+        slug_index:
+            columns: [ slug ]
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 255
+        slug:
+            type: string
+            length: 255
+        count:
+            type: integer
+            default: 0
+    manyToMany:
+        posts:
+            targetEntity: Post
+            mappedBy: tags
+            fetch: EXTRA_LAZY
+    lifecycleCallbacks:
+        prePersist: [ prePersist ]
+        preUpdate: [ preUpdate ]

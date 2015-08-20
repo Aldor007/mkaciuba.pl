@@ -24,6 +24,7 @@ Features
 * custom seo date for page (SonataSeoBundle)
 * supersized gallery for photos
 * ajax gallery for photos in blog post
+* zip photo upload and then unzip and add to photocategory
 
 License
 -------

@@ -1,0 +1,45 @@
+#src/Aldor/InftechBundle/Resources/config/doctrine/Post.orm.yml
+Aldor\InftechBundle\Entity\Entry:
+    type: mappedSuperclass
+    indexes:
+        date_index:
+            columns: [ date, publicationDateStart  ]
+    fields:
+        date:
+            type: datetime
+        publicationDateStart:
+            type: datetime
+            nullable: no
+        url:
+            type: string
+            length: 255
+        contentFormatter:
+            type: string
+            length: 255
+            default: "richhtml"
+        content:
+            type: text
+        rawContent:
+            type: text
+        description:
+            type: text
+            nullable: no
+        keywords:
+            type: string
+            length: 255
+            nullable: true
+        modified:
+            type: datetime
+        comment_count:
+            type: integer
+            nullable: true
+        public:
+            type: boolean
+            default: true
+        full_photo_size:
+            type: string
+            default: "big"
+    lifecycleCallbacks:
+            prePersist: [ preInsert ]
+            preUpdate: [ preUpdate ]
+            preRemove: [ preRemove ]

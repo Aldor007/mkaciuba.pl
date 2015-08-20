@@ -1,0 +1,40 @@
+#src/Aldor/GalleryBundle/Resources/config/doctrine/Gallery.orm.yml
+Aldor\GalleryBundle\Entity\Gallery:
+    type: entity
+    repositoryClass: Aldor\GalleryBundle\Repository\GalleryRepository
+    table: gallery
+    indexes:
+        id_index:
+            columns: [ id ]
+        slug_index:
+            columns: [ slug ]
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 100
+            unique: true
+        slug:
+            type: string
+            length: 100
+        keywords:
+            type: string
+            length: 100
+            nullable: yes
+        description:
+            type: string
+            length: 255
+            nullable: yes
+    oneToMany:
+        categories:
+            targetEntity: PhotoCategory
+            mappedBy: gallery
+            cascade: ['all']
+            orphanRemoval: yes
+    lifecycleCallbacks:
+            prePersist: [ prePersist ]
+            preUpdate: [ preUpdate ]
+

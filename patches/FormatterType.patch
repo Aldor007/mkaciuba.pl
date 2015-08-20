@@ -1,0 +1,18 @@
+--- FomatterType.php	2014-12-30 23:13:50.011929911 +0100
++++ vendor/sonata-project/formatter-bundle/Form/Type/FormatterType.php	2014-12-30 23:14:25.023618853 +0100
+@@ -135,7 +135,7 @@
+         $view->vars['format_field_options'] = $options['format_field_options'];
+ 
+         $ckeditorConfiguration = array(
+-            'toolbar'       => array_values($options['ckeditor_toolbar_icons']),
++            // 'toolbar'       => array_values($options['ckeditor_toolbar_icons']),
+         );
+ 
+         if ($options['ckeditor_context']) {
+@@ -202,4 +202,4 @@
+     {
+         return 'sonata_formatter_type';
+     }
+-}
+\ Brak znaku nowej linii na końcu pliku
++}

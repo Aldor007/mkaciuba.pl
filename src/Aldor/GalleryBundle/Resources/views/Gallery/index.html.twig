@@ -1,0 +1,113 @@
+
+
+    {% block menu %}
+        {% embed 'AldorInftechBundle::menu.html.twig'  %}
+        {% block header_navbar_inner%}
+        header-navbar-inner
+        {% endblock%}
+        {% endembed %}
+    {% endblock %}
+{% block head_script%}
+<style>
+div.container
+{
+    min-height: 700px;
+    margin-top: 20px;
+}
+div#gallery {
+position: absolute;
+width: 100%;
+overflow: hidden;
+}
+div.photocategory {
+float: left;
+margin-left: 10px;
+min-width: 50px;
+}
+#makeScrollable
+{
+width:100%;
+min-height: 700px;
+position: relative;
+}
+
+#makeScrollable  div.scrollableArea a img
+{
+position: relative;
+float: left;
+margin: 0;
+padding: 0;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+
+</style>
+{% endblock%}
+
+{% block container %}
+
+               
+           <div id="main" >
+               <div class="content section row">
+                 {% for cat in categories %}
+                            <div class="photocategory"> <a href="{{ path('gallery_photocategory',{'galleryslug': gallery.slug,'photocategoryslug': cat.slug} )  }}">
+
+                                            {% if cat.image %}
+                                            <figure class="entry-thumbnail">
+                                              
+                                                {% set img_url = media_relative_url(cat.image, 'reference') | imagine_filter('photocategory_img')  %}
+                                                {% include "AldorInftechBundle::image.html.twig" with {
+                                                    "img_url": img_url,
+                                                    "alt": cat.name,
+                                                    "width": "600",
+                                                    "height": "450"
+
+                                                }
+                                                 %} 
+
+                                            </figure>
+                                            {% endif %}
+                                    <h2>{{ cat.name }}</h2>
+
+                                        </a>
+                            </div>
+                                                        {% else %}
+                    <div class="info">Brak kategorii.</div>
+    {% endfor %}
+             <div class="clear"></div>
+             </div>
+
+            </div>
+            {% endblock %}
+
+{% block footer%}
+    {% embed 'ApplicationSonataPageBundle::footer.html.twig' %}
+        {% block footer_top_tag %}
+            <div class="footer-top">
+        {% endblock %}
+
+        {% block footer_left %} 
+        {% if gallery is defined %}
+            <div class="widget col-xs-12 col-sm-4">
+                {{ sonata_block_render({ 'type': 'aldor.block.service.categories' }, {
+                    'title': 'Kategorie zdjec ',
+                     'template': 'AldorInftechBundle:Block:footer_gallerycategories.html.twig',
+                     'entity': 'AldorGalleryBundle:PhotoCategory',
+                     'params':  { 'gallery': gallery }
+                }) }}
+                    </div><!--/.col-3-->
+        {% else %}
+            {{ parent()}}
+        {% endif %}
+        {% endblock %}
+
+        {% block footer_bottom_tag %}
+            <div class="aligncenter">
+        {% endblock %}
+
+    {% endembed%}
+{% endblock %}
+

@@ -1,0 +1,37 @@
+
+
+  {% image '@AldorInftechBundle/Resources/assetic/images/placeholder.png' %}
+<img  src="{% spaceless %}
+{% if bg_img is defined%}
+{{ bg_img }}
+{% else %}
+    {% if width is defined and height is defined %}
+        {% set runtimeConfig = {"thumbnail": {"size": [width, height] }} %}
+        {{ asset_url | imagine_filter('blog_small', runtimeConfig) }}
+    {% else %}
+        {{ asset_url}}
+
+    {% endif %}
+{% endif %}
+{% endspaceless %}
+ "
+ data-src="{{img_url}}" data-src-retina="{{img_url}}"  alt="{{alt}}" 
+{% if width is defined and height is defined %}
+    width="{{ width }}" height="{{ height }}"
+{%endif%}
+{% if class is defined %}
+class="{{ class }}"
+{% endif %}
+>
+{% endimage %}
+<noscript>
+    <img src="{{img_url}}" alt="{{alt}}" 
+{% if width is defined and height is defined %}
+width="{{ width }}" height="{{ height }}"
+{% endif %}
+{% if class is defined %}
+class="{{ class }}"
+{% endif %}
+>
+</noscript>
+

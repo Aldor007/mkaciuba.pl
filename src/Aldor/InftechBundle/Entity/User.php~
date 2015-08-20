@@ -1,0 +1,178 @@
+<?php
+
+namespace Aldor\InftechBundle\Entity;
+
+use Sonata\UserBundle\Entity\BaseUser as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Accessor;
+use JMS\Serializer\Annotation as Serializer;
+
+/**
+ * Aldor\InftechBundle\Entity\User
+ */
+class User extends BaseUser
+{
+    /**
+     * @var integer $id
+     * @Groups({"list", "details"})
+     * @Serializer\Expose
+     * @Serializer\Type("integer")
+     */
+    protected $id;
+
+    /**
+     * @var string $displayname
+     * @Groups({"list", "details"})
+     */
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    protected $userposts;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->userposts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * Set display_name
+     *
+     * @param string $displayName
+     * @return User
+     */
+
+    /**
+     * Get display_name
+     *
+     * @return string
+     */
+
+    /**
+     * Add userposts
+     *
+     * @param Aldor\BlogBundle\Entity\Post $userposts
+     * @return User
+     */
+    public function addUserpost(\Aldor\BlogBundle\Entity\Post $userposts)
+    {
+        $this->userposts[] = $userposts;
+
+        return $this;
+    }
+
+    /**
+     * Remove userposts
+     *
+     * @param Aldor\BlogBundle\Entity\Post $userposts
+     */
+    public function removeUserpost(\Aldor\BlogBundle\Entity\Post $userposts)
+    {
+        $this->userposts->removeElement($userposts);
+    }
+
+    /**
+     * Get userposts
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getUserposts()
+    {
+        return $this->userposts;
+    }
+    /**
+     * @ORM\PrePersist
+     */
+    public function setDateAtValue()
+    {
+        // Add your code here
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setModifiedAtValue()
+    {
+        // Add your code here
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $posts;
+
+
+    /**
+     * Add posts
+     *
+     * @param \Aldor\BlogBundle\Entity\Post $posts
+     * @return User
+     */
+    public function addPost(\Aldor\BlogBundle\Entity\Post $posts)
+    {
+        $this->posts[] = $posts;
+
+        return $this;
+    }
+
+    /**
+     * Remove posts
+     *
+     * @param \Aldor\BlogBundle\Entity\Post $posts
+     */
+    public function removePost(\Aldor\BlogBundle\Entity\Post $posts)
+    {
+        $this->posts->removeElement($posts);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * Set displayname
+     *
+     * @param string $displayname
+     * @return User
+     */
+    public function setDisplayname($displayname)
+    {
+        $this->displayname = $displayname;
+
+        return $this;
+    }
+
+    /**
+     * Get displayname
+     *
+     * @return string
+     */
+    public function getDisplayname()
+    {
+        return $this->displayname;
+    }
+}

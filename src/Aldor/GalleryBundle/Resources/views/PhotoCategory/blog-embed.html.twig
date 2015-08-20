@@ -1,0 +1,48 @@
+    
+                        <link href="/bundles/aldorgallery/css/jquery.galereya.css" type="text/css" rel="stylesheet" media="screen" />
+     <!--[if lt IE 9]>
+                 <link rel="stylesheet" href="/bundles/aldorgallery/css/jquery.galereya.ie.css">
+                         <![endif]-->
+               <div class="content section row">
+               <header class="clearfix">
+                
+
+                    
+            <a href="/galeria/{{ gallery.slug}}/{{category.slug}}">Wyświetl pokaz</a>
+                </header>
+                
+
+                    
+                    <div id="galleryherepls" class="content section row">
+                    <noscript>
+                    {% for photo in photos %}
+                            <img src="{% path photo.image, 'big300' %}"
+                                alt="{{photo.title}}"
+                                data-description="{{category.name}}"
+                                data-fullsrc="{% path photo.image, 'big1300' %}"
+                            />
+                    {% else %}
+                            <div class="info">Brak zdjec.</div>
+            {% endfor %}
+            </noscript>
+                </div>
+
+
+ <script type="text/javascript" src="/bundles/aldorgallery/js/jquery.galereya.min.js"></script>
+<script type="text/javascript">
+            
+            $(function() {
+
+                $('#galleryherepls').galereya({
+                 wave: false,
+                   load: function(next) {
+                        $.getJSON('/api/v1/photos/{{category.id}}.json', function(data) {
+                            next(data);
+                        });
+                    }
+                });
+
+            });
+
+        </script>   
+

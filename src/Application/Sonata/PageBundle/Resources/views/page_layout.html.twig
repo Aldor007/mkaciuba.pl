@@ -1,0 +1,60 @@
+{% block sonata_page_html_tag %}
+{% embed 'ApplicationSonataPageBundle::header.html.twig' %}
+                {% block head_stylesheets%}
+                    {% stylesheets
+                       '@AldorInftechBundle/Resources/assetic/less/base.less'
+                       '@AldorInftechBundle/Resources/assetic/less/components.less'
+                       '@AldorInftechBundle/Resources/assetic/less/light.less'
+                        output='css/mkaciuba.page.header.min.css' filter='uglifycss'
+
+                    %}
+                        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+                    {% endstylesheets %}
+                 {% endblock head_stylesheets %}
+{% endembed%}
+
+    {% endblock%}
+
+{% block sonata_page_container %}
+{% cache 'page/menu' 900 %}
+
+    {% block menu %}
+        {% embed 'AldorInftechBundle::menu.html.twig'  %}
+        {% endembed %}
+    {% endblock %}
+{% endcache %}
+        {{ sonata_page_render_container('header', page) }}
+
+<div id="main" class="container">
+<div class="content bg-base section">
+    <div class="ribbon ribbon-highlight">
+        {% block breadcrumb %}
+        <ol class="breadcrumb ribbon-inner">
+            <li><a href="{{ path('page_slug', {'path': '/'}) }}" >Home</a></li>
+        </ol>
+        {% endblock breadcrumb%}
+    </div>
+    <div class="row">
+    <article class="entry style-single style-single-full type-post col-md-10 col-md-offset-1">
+
+    {% block page_content %}
+        {% if content is defined %}
+            {{ content|raw }}
+        {% else %}
+            {% set content = block('content') %}
+            {% if content|length > 0 %}
+                {{ content|raw }}
+            {% elseif page is defined %}
+                {{ sonata_page_render_container('content', page) }}
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+    </article>
+</div>
+</div>
+</div>
+{% endblock sonata_page_container %}
+{% block footer%}
+        {% include 'ApplicationSonataPageBundle::footer.html.twig'%}
+{% endblock %}
+

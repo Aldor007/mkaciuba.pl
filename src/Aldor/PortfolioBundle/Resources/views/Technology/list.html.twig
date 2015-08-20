@@ -1,0 +1,21 @@
+{% embed 'AldorInftechBundle::sidebar.html.twig'  %}
+{% block siedebar_title%}{{ title }}{% endblock%}
+    {%block siedebar_content %}
+    <ul class="entries">
+    {% for category in entities %}
+        <li class="entry style-recent-list type-post">
+
+        <a href="{{ path(routeName, {'slug': category.slug }) }}" class="entry-title">
+        <i class="fa fa-chevron-right"></i>
+        {{ category.name }}
+        </a>
+        <li>
+    {%endfor%}
+    </ul>
+
+    {% endblock%}
+{% endembed %}
+
+
+
+

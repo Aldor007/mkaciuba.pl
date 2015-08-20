@@ -1,0 +1,11 @@
+{% form_theme form 'AldorInftechBundle:Menu:form_submit.html.twig' %}
+
+{{ form_start(form) }}
+    {% if value %}
+    {{ form_widget(form.search, {'attr': {'value': value,  'id': 'szukaj' }}) }}
+    {%else %}
+    {{ form_widget(form.search, {'attr': {'placeholder': placeholder,  'id': 'szukaj' }}) }}
+    {%endif%}
+
+    {{ form_widget(form.szukaj) }}
+{{ form_end(form)}}

@@ -1,0 +1,47 @@
+#src/Aldor/PortfolioBundle/Resources/config/doctrine/Project.orm.yml
+Aldor\PortfolioBundle\Entity\Project:
+    type: entity
+    repositoryClass: Aldor\PortfolioBundle\Repository\ProjectRepository
+    table: project
+    indexes:
+        id_index:
+            columns: [ id ]
+        slug_index:
+            columns: [ slug ]
+    id:
+      id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 244
+        slug:
+            type: string
+            length: 244
+    manyToOne:
+        media:
+            targetEntity: Application\Sonata\MediaBundle\Entity\Media
+            joinColumn:
+                name: mediaid
+                referencedColumnName: id
+    manyToMany:
+        technologies:
+            targetEntity: Technology
+            inversedBy: projects
+            joinTable:
+                name: project_technology
+                joinColumns:
+                     project_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    Technology_id:
+                        referencedColumnName: id
+            fetch: LAZY
+            nullable: no
+    lifecycleCallbacks:
+          prePersist: [ prePersist ]
+          preUpdate: [ preUpdate ]
+
+
+

@@ -1,0 +1,51 @@
+#src/Aldor/GalleryBundle/Resources/config/doctrine/Photo.orm.yml
+Aldor\GalleryBundle\Entity\Photo:
+    type: entity
+    repositoryClass: Aldor\GalleryBundle\Repository\PhotoRepository
+    table: photos
+    indexes:
+        id_index:
+            columns: [ id ]
+        title_index:
+            columns: [ title ]
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            length: 200
+        date:
+            type: datetime
+
+        sequence:
+            type: integer
+            generator: { strategy: AUTO }
+    manyToMany:
+        categories:
+            targetEntity: PhotoCategory
+            nullable: no
+            inversedBy: photos        
+            fetch: EXTRA_LAZY
+            joinTable:
+                fetch: EXTRA_LAZY
+                name: photo_categories
+                joinColumns:
+                     photo_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    photocategory_id:
+                        referencedColumnName: id
+    oneToOne:
+        image:
+            targetEntity: Application\Sonata\MediaBundle\Entity\Media
+            orphanRemoval: yes
+            cascade: ['persist', 'remove']
+            joinColumn:
+                name: imageid
+                referencedColumnName: id
+                nullable: no
+    lifecycleCallbacks:
+            prePersist: [ preInsert ]
+            preUpdate: [ preUpdate ]

@@ -1,0 +1,74 @@
+#src/Aldor/InftechBundle/Resources/config/doctrine/Post.orm.yml
+Aldor\BlogBundle\Entity\Post:
+    exclusion_policy: none
+    properties:
+        id:
+            type: integer
+            expose:  true
+            groups:  [list, details]
+        date:
+            type: DateTime
+            expose:  true
+            groups:  [list, details]
+        url:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        dateslug:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        titleslug:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        content:
+            type: string
+            expose:  true
+            groups:  [ details]
+        description:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        keywords:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        title:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        status:
+            type: string
+            expose:  true
+            groups:  [list, details]
+        comment_status:
+            type: string
+            expose:  true
+            groups:  [details]
+        modified:
+            type: DateTime
+            expose:  true
+            groups:  [list, details]
+        comment_count:
+            type: integer
+            expose:  true
+            groups:  [list, details]
+        media:
+            type: Application\Sonata\MediaBundle\Entity\Media
+            expose:  true
+            groups:  [list, details]
+        category:
+            type: Aldor\BlogBundle\Entity\PostCategory
+            expose:  true
+            groups:  [list, details]
+        user:
+            type: Application\Sonata\UserBundle\Entity\User
+            # type: FOS\UserBundle\Entity\User
+            expose:  true
+            groups:  [list, details]
+
+        tags:
+            expose:  true
+            type: ArrayCollection<Aldor\BlogBundle\Entity\Tag>
+            groups:  [details]

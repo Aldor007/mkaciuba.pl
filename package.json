@@ -1,0 +1,25 @@
+{
+  "name": "mkaciuba.pl",
+  "version": "1.0.0",
+  "description": "mkaciuba.pl",
+  "main": "versions.js",
+  "dependencies": {
+    "less": "~1.7.5",
+    "versions": "0.3.0",
+    "hiredis": "0.2.0",
+    "redis": "0.12.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:aldor007/strona2.git"
+  },
+  "keywords": [
+    "www"
+  ],
+  "author": "Marcin Kaciuba",
+  "license": "MIT"
+}

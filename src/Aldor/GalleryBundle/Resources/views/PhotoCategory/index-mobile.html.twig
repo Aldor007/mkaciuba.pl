@@ -1,0 +1,156 @@
+
+    {% block menu %}
+        {% embed 'AldorInftechBundle::menu.html.twig'  %}
+        {% block header_navbar_inner%}
+        header-navbar-inner
+        {% endblock%}
+                    {% block knp_menu %}
+                    {% set menuItem = knp_menu_get('AldorInftechBundle:Builder:galleryMenu', [], {'gallery': gallery, 'category': category}) %}
+
+                    {{ knp_menu_render(menuItem, {'currentClass': 'active'})}}
+                    {% endblock %}
+        {% endembed %}
+    {% endblock %}
+
+{%block head_script %}
+    
+                    {% stylesheets
+                       '@AldorGalleryBundle/Resources/public/css/style.css'
+                    %}
+                        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+                    {% endstylesheets %}
+    {% javascripts
+        '@AldorGalleryBundle/Resources/public/js/modernizr.custom.70736.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+        <noscript>
+                    {% stylesheets
+                       '@AldorGalleryBundle/Resources/public/css/noJS.css'
+                    %}
+                        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+                    {% endstylesheets %}
+        </noscript>
+        <!--[if lte IE 7]><style>.main{display:none;} .support-note .note-ie{display:block;}</style><![endif]-->
+
+{%endblock%}
+    
+{% block content %}
+   
+           <div id="main" class="main">
+               <div class="content section row">
+               <header class="clearfix">
+                
+                 <!--[if IE]>
+                    <div class="support-note">
+                        <span class="note-ie">Sorry, only modern browsers.</span>
+                    </div>
+                    <![endif]-->
+                    
+                </header>
+                
+                <div class="gamma-container gamma-loading" id="gamma-container">
+
+                    <ul class="gamma-gallery">
+                    
+
+                {% for photo in photos %}
+                        <li>
+                            <div data-alt="{{photo.title}}" data-description="<h3>{{photo.title}}</h3>" data-max-width="1800" data-max-height="1350">
+                                <div data-src="{% path photo.image, 'big1300'  %}" data-min-width="1300"></div>
+                                <div data-src="{% path photo.image, 'big1300'  %}" data-min-width="1000"></div>
+                                <div data-src="{% path photo.image, 'big'  %}" data-min-width="700"></div>
+                                <div data-src="{% path photo.image, 'big'  %}" data-min-width="300"></div>
+                                <div data-src="{% path photo.image, 'big200'  %}" data-min-width="200"></div>
+                                <div data-src="{% path photo.image, 'big200'  %}" data-min-width="140"></div>
+                                <div data-src="{% path photo.image, 'big200'  %}"></div>
+                                <noscript>
+                                    <img src="{% path photo.image, 'big200'  %}" alt="{{ photo.title}}"/>
+                                </noscript>
+                            </div>
+                        </li>
+            {% else %}
+                    <div class="info">Brak zdjec.</div>
+    {% endfor %}
+        </ul>
+            <div class="gamma-overlay"></div>
+        </div>
+        </div>
+
+ {% endblock %}
+
+{% block footer%}
+    {% embed 'ApplicationSonataPageBundle::footer.html.twig' %}
+        {% block footer_top_tag %}
+            <div class="footer-top">
+        {% endblock %}
+
+        {% block footer_left %} 
+        {% if gallery is defined %}
+            <div class="widget col-xs-12 col-sm-4">
+                {{ sonata_block_render({ 'type': 'aldor.block.service.categories' }, {
+                    'title': 'Kategorie zdjec ',
+                     'template': 'AldorInftechBundle:Block:footer_gallerycategories.html.twig',
+                     'entity': 'AldorGalleryBundle:PhotoCategory',
+                     'params':  { 'gallery': gallery }
+                }) }}
+                    </div><!--/.col-3-->
+        {% else %}
+            {{ parent()}}
+        {% endif %}
+        {% endblock %}
+
+        {% block footer_bottom_tag %}
+            <div class="aligncenter">
+        {% endblock %}
+{% block foot_script_jquery %}{%endblock%}
+
+{% block foot_script %}
+
+    {% javascripts
+        '@AldorGalleryBundle/Resources/public/js/jquery.masonry.min.js'
+        '@AldorGalleryBundle/Resources/public/js/jquery.history.js'
+        '@AldorGalleryBundle/Resources/public/js/js-url.min.js'
+        '@AldorGalleryBundle/Resources/public/js/jquerypp.custom.js'
+        '@AldorGalleryBundle/Resources/public/js/gamma.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+<script type="text/javascript">
+            
+            $(function() {
+
+                var GammaSettings = {
+                        // order is important!
+                        viewport : [ {
+                            width : 1200,
+                            columns : 5
+                        }, {
+                            width : 900,
+                            columns : 4
+                        }, {
+                            width : 500,
+                            columns : 3
+                        }, { 
+                            width : 320,
+                            columns : 2
+                        }, { 
+                            width : 0,
+                            columns : 2
+                        } ]
+                };
+
+                Gamma.init( GammaSettings, fncallback );
+
+
+                function fncallback() {
+
+                }
+
+            });
+
+        </script>   
+{% endblock %}
+    {% endembed%}
+{% endblock %}
+

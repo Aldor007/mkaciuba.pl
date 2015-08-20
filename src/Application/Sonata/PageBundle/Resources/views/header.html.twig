@@ -1,0 +1,138 @@
+{% block sonata_page_html_tag %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>   <html class="no-js lt-ie9 lt-ie8 lt-ie7" {{ sonata_seo_html_attributes() }}> <![endif]-->
+<!--[if IE 7]>      <html class="no-js lt-ie9 lt-ie8" {{ sonata_seo_html_attributes() }}}> <![endif]-->
+<!--[if IE 8]>      <html class="no-js lt-ie9" {{ sonata_seo_html_attributes() }}> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" {{ sonata_seo_html_attributes() }}> <!--<![endif]-->
+{% endblock %}
+    {% block sonata_page_head %}
+        <head {{ sonata_seo_head_attributes() }}>
+
+            {{ sonata_seo_title() }}
+            {{ sonata_seo_metadatas() }}
+            {{ sonata_seo_link_canonical() }}
+            {{ sonata_seo_lang_alternates() }}
+
+            {% block sonata_page_stylesheets %}
+                {% block page_stylesheets %} {# Deprecated block #}
+                    {% for stylesheet in sonata_page.assets.stylesheets %}
+                        {% if 'sonata' not in stylesheet %}
+                        <link rel="stylesheet" href="{{ asset(stylesheet) }}" type="text/css" media="all"  />
+                        {% endif %}
+                    {% endfor %}
+                {% endblock %}
+            {% endblock %}
+
+            {% block sonata_page_javascripts %}
+                {% block page_javascripts %} {# Deprecated block #}
+
+                {% endblock %}
+
+            {% endblock %}
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <!-- Mobile Devices Viewport Resset-->
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+            <link rel="shortcut icon" href="/favicon.ico">
+            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+            <link rel="icon" type="image/png" href="/android-chrome.png" sizes="192x192" />
+            {% if is_full_view() %}
+            <link rel="alternate" media="only screen and (max-width: 640px)" href="https://m.mkaciuba.pl{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) }}" />
+            {% endif %}
+            <meta name="author" content="Marcin Kaciuba">
+
+            <link rel="publisher" href="https://plus.google.com/u/0/116373800913673712146">
+
+            <link rel="dns-prefetch" href="//google-analytics.com" />
+            <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+            <link rel="dns-prefetch" href="//mkaciuba.disqus.com" />
+            <link rel="dns-prefetch" href="//static.mkaciuba.pl" />
+            <link rel="dns-prefetch" href="//www.google.com" />
+            <link rel="dns-prefetch" href="//www.facebook.com" />
+
+
+
+
+            <meta name="apple-mobile-web-app-capable" content="yes">
+                {% stylesheets
+                   '@AldorInftechBundle/Resources/public/vendor/bootstrap/css/bootstrap.min.css'
+                   '@AldorInftechBundle/Resources/public/vendor/prettyPhoto/css/prettyPhoto.css'
+                   '@AldorInftechBundle/Resources/public/vendor/font-awesome/css/font-awesome.min.css'
+                   '@BmatznerFontAwesomeBundle/Resources/public/css/font-awesome.min.css'
+                   '@AldorInftechBundle/Resources/public/css/fontello.css'
+
+
+                    output='css/mkaciuba.header.min.css' filter='uglifycss'
+                %}
+                    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+                {% endstylesheets %}
+            <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+
+                <!--[if IE 8]>
+                {% stylesheets
+                    '@AldorInftechBundle/Resources/public/vendor/font-awesome/css/font-awesome-ie7.min.css'
+
+                %}
+                    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+                {% endstylesheets %}
+                <!--[endif]-->
+
+                <!--[if IE 7]><
+                {% stylesheets
+                   '@AldorInftechBundle/Resources/public/css/fontello-ie7.css'
+                %}
+                    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+                {% endstylesheets %}
+
+                <!--[endif]-->
+                <script type="text/javascript">
+  !function(a,b){a("Keen","https://d26b395fwzu5fz.cloudfront.net/3.2.5/keen.min.js",b)}(function(a,b,c){var d,e,f;c["_"+a]={},c[a]=function(b){c["_"+a].clients=c["_"+a].clients||{},c["_"+a].clients[b.projectId]=this,this._config=b},c[a].ready=function(b){c["_"+a].ready=c["_"+a].ready||[],c["_"+a].ready.push(b)},d=["addEvent","setGlobalProperties","trackExternalLink","on"];for(var g=0;g<d.length;g++){var h=d[g],i=function(a){return function(){return this["_"+a]=this["_"+a]||[],this["_"+a].push(arguments),this}};c[a].prototype[h]=i(h)}e=document.createElement("script"),e.async=!0,e.src=b,f=document.getElementsByTagName("script")[0],f.parentNode.insertBefore(e,f)},this);
+</script>
+
+                {% javascripts
+                    '@AldorInftechBundle/Resources/public/vendor/modernizr-2.6.2-respond-1.1.0.min.js'
+                    '@AldorInftechBundle/Resources/public/vendor/jquery-1.10.1.min.js'
+                    '@AldorInftechBundle/Resources/public/vendor/bootstrap/js/bootstrap.min.js'
+                    '@AldorInftechBundle/Resources/public/vendor/prettyPhoto/jquery.prettyPhoto.js'
+                    '@AldorInftechBundle/Resources/public/vendor/jquery.unveil.min.js'
+                    '@AldorInftechBundle/Resources/public/js/timing.js'
+                    '@AldorInftechBundle/Resources/public/js/main.js'
+                    '@AldorInftechBundle/Resources/public/js/cookies.js'
+                    output='js/mkaciuba20150705v6.min.js' filter='uglifyjs2'
+                %}
+                    <script type="text/javascript"  data-cfasync="true" src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+                <script type="text/javascript">
+                  var _gaq = _gaq || [];
+                  _gaq.push(['_setAccount', 'UA-21042903-3']);
+                  _gaq.push(['_trackPageview']);
+
+                  (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                  })();
+                </script>
+<script type="application/ld+json">
+{
+   "@context": "http://schema.org",
+   "@type": "WebSite",
+   "url": "https://mkaciuba.pl",
+   "potentialAction": {
+     "@type": "SearchAction",
+     "target": "https://mkaciuba.pl/szukaj?search={search_term_string}",
+     "query-input": "required name=search_term_string"
+   }
+}
+</script>
+
+
+    {% block head_stylesheets%}
+    {% endblock head_stylesheets %}
+    {% block head_script %}
+    {% endblock head_script%}
+</head>
+    {% endblock sonata_page_head%}
+    {% block sonata_page_body_tag %}
+    <body>
+{% endblock sonata_page_body_tag %}

@@ -1,0 +1,23 @@
+#parameters:
+#    aldor_inftech.example.class: Aldor\InftechBundle\Example
+services:
+    aldor.blog.admin.post:
+        class: Aldor\BackendBundle\Admin\PostAdmin
+        calls:
+            - [setPoolFormatter, [ @sonata.formatter.pool]]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Blog, label: Post }
+        arguments: [null,Aldor\BlogBundle\Entity\Post, AldorBackendBundle:PostAdmin]
+
+    aldor.blog.admin.postcategory:
+        class: Aldor\BackendBundle\Admin\PostCategoryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Blog, label: PostCategory }
+        arguments: [null,Aldor\BlogBundle\Entity\PostCategory, AldorBackendBundle:PostCategoryAdmin]
+
+    aldor.blog.admin.tag:
+        class: Aldor\BackendBundle\Admin\TagAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Blog, label: Tag }
+        arguments: [null,Aldor\BlogBundle\Entity\Tag, AldorBackendBundle:TagAdmin]
+

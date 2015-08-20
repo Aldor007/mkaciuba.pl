@@ -1,0 +1,55 @@
+
+
+
+    {% for post in posts %}
+        {% if loop.index ==  1   %}
+            <article class="entry style-grid style-hero hero-sm-largest type-post col-sm-12 col-md-8 col-lg-8 col-xl-6 colheight-sm-1 colheight-md-2 colheight-lg-2 colheight-xl-2">
+        {% elseif loop.index == 2 %}
+            <article class="entry style-grid style-hero type-post col-sm-6 col-md-4 col-lg-4 col-xl-6 colheight-sm-1 colheight-md-1 colheight-lg-1 colheight-xl-2">
+        {% elseif loop.index == 3 %}
+            <article class="entry style-grid style-hero hero-sm-larger hero-xl-normal type-post col-sm-6 col-md-4 col-lg-4 col-xl-4 colheight-sm-1 colheight-md-2 colheight-lg-2 colheight-xl-1 sm-pull-right">
+        {% else %}
+            <article class="entry style-grid style-hero type-post col-sm-6 col-md-4 colheight-md-1 colheight-sm-1 colheight-md-1 colheight-lg-1 colheight-lg-1 colheight-xl-1">
+        {% endif %}
+                <div class="ribbon ribbon-pulled ribbon-small ribbon-highlight">
+                    <a href="{{ path('blog_category', {'slug': post.categoryslug}) }}">{{post.category.name }}</a>
+                </div>
+                <header class="entry-header">
+                    <h3  class="entry-title">
+                        <a href="{{ path('blog_post', {  'year': post.date | date('Y'), 'month': post.date | date('m'),  'title': post.titleslug}) }}">{{ post.title }}</a>
+                    </h3>
+                    <div class="entry-meta">
+                        <h4>
+                        {{post.rawdescription|slice(0, 75)}} {% if post.rawdescription|length > 75 %}...{% endif %}    
+                        </h4>
+                        <span class="entry-date"> <time datetime="{{ post.date | date(dateFormat) }} ">{{ post.date |time_ago_in_words(false, true)|trans }}</time></span>
+                    </div>
+                </header>
+            <figure class="entry-thumbnail">
+                    {% if loop.index < 3 %}
+                        {% set img_url = media_public_url(post.media, imagesSize[0])   %}
+                        {% set width = "680" %}
+                        {% set height = "452" %}
+                    {% else %}
+                        {% set img_url = media_public_url(post.media, imagesSize[1])   %}
+                        {% set width = "480" %}
+                        {% set height = "280" %}
+                    {% endif %}
+                    <a href="{{ path('blog_post', {  'year': post.date | date('Y'), 'month': post.date | date('m'),  'title': post.titleslug}) }}" class="overlay overlay-primary">
+                            </a>
+                         {% include "AldorInftechBundle::image.html.twig" with {
+                            "img_url": img_url,
+                            "alt": post.title,
+                            "width": width,
+                            "height": height,
+                            "bg_img": img_url
+                            }
+                            %}
+
+
+                </figure>
+
+            </article>
+    {% else %}
+           <div class="info">Brak postow.</div>
+    {% endfor %}
